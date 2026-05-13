@@ -39,6 +39,8 @@ import com.example.ff9.data.Perso
 import com.example.ff9.data.persos
 import com.example.ff9.ui.theme.FF9Theme
 
+
+
 @Composable
 fun CardPersoDetails( perso: Perso){
 
@@ -67,7 +69,7 @@ fun defineIcon(blocName:String): Painter{
 @Composable
 fun SkillsPerso(perso:Perso){
     CardBloc(iconRes = defineIcon("Skills"),
-            text="Skills",
+            text="Compétences",
             description= stringResource(R.string.djidane_description)
         )
 }
@@ -75,7 +77,7 @@ fun SkillsPerso(perso:Perso){
 @Composable
 fun HistoryPerso(perso:Perso){
     CardBloc(iconRes = defineIcon("History"),
-        text="History",
+        text="Histoire",
         description= stringResource(R.string.djidane_description)
     )
 }
@@ -83,7 +85,7 @@ fun HistoryPerso(perso:Perso){
 @Composable
 fun WeaponsPerso(perso:Perso){
     CardBloc(iconRes = defineIcon("Weapons"),
-        text="Weapons",
+        text="Armes",
         description= stringResource(R.string.djidane_description)
     )
 }
