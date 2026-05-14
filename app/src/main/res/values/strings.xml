@@ -1,55 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--Personnages -->
-    <string name="app_name">FF9</string>
-    <string name="djidane_firstname">Djidane</string>
-    <string name="djidane_name">Tribal</string>
-    <string name="djidane_description">"Il n\'est pas tantalas pour rien. Spécialisé dans la cambriole, on passe son temps à l\'envoyer voler les ennemis lors des combats. C\'est gratuit et les surprises sont parfois bonnes ! Grâce à ses Compétences peu morales, djidane_first_name, décèle ce que les ennemis possèdent ( 3è oeil ). Il peut aussi voler plus facilement (Lupin). Voire voler ce qu\' il y a de mieux en face directement ! (Maître voleur). Quand il n\' est pas de taille et que l\' équipe est décimée, il vaut mieux prendre la fuite (Malandrin), surtout qu\' une Compétence permet de gagner des gils même à cette occasion. À le faire voler sans arrêt, on oublie presque que c\' est un puissant guerrier. Lors de la Transe, il use d\' attaques physiques extrêmement puissantes. Inutile d\' ses points de Magie, ils ne servent qu\'à cette occasion. Et pensez à activer sa Compétence Tonifiant en permanence."</string>
-
-    <!--Weapons-->
-    <string name="weapons_dague">Dague</string>
-    <string name="weapons_dague_magik">Dague Magik</string>
-    <string name="weapons_mithdague">Mithdague</string>
-    <string name="weapons_gradius">Gradius</string>
-    <string name="weapons_organix">Organix</string>
-    <string name="weapons_canif">Canif</string>
-    <string name="weapons_explodor">Explodor</string>
-    <string name="weapons_canif_runik">Canif Runik</string>
-    <string name="weapons_ange_bleu">Ange Bleu</string>
-    <string name="weapons_zorin">Zorin</string>
-    <string name="weapons_sargatanas">Sargatanas</string>
-    <string name="weapons_orichalque">Orichalque</string>
-    <string name="weapons_la_tour">La Tour</string>
-    <string name="weapons_monarch">Monarch</string>
-
-
-
-    <!--Competences Combat-->
-    <string name="competence_combat_malandrin">Malandrin</string>
-    <string name="competence_combat_malandrin_description">Fuite au combat</string>
-    <string name="competence_combat_3oeil">3ème Oeil</string>
-    <string name="competence_combat_3oeil_description">"Affiche les possessions de l\' ennemi"</string>
-    <string name="competence_combat_embrouilles">Embrouilles</string>
-    <string name="competence_combat_embrouilles_description">"Embrouille l\' ennemi"</string>
-    <string name="competence_combat_coudepot">Coudepot</string>
-    <string name="competence_combat_coudepot_description">Dégâts selon le niveau de chance</string>
-    <string name="competence_combat_amepee">Amépée</string>
-    <string name="competence_combat_amepee_description">"Attaque infligeant l\' effet additionnel"</string>
-    <string name="competence_combat_regardez">Regardez</string>
-    <string name="competence_combat_regardez_description">Attaque en premier</string>
-    <string name="competence_combat_solidarite">Solidarité</string>
-    <string name="competence_combat_solidarite_description">Don de vos HP et MP à vos alliés</string>
-    <string name="competence_combat_coffrer">Coffrer</string>
-    <string name="competence_combat_coffrer_description">Lance une attaque physique</string>
-
-
-
-
-    <!-- Competence Support -->
-    <string name="competence_support_lupin">Lupin</string>
-    <string name="competence_support_lupin_description">Augmente les chances de voler</string>
-    <string name="competence_support_galanterie">Galanterie</string>
-    <string name="competence_support_galanterie_description">"Encaisse le coup à la place d\' une fille"</string>
+    <!-- Global -->
+    <!-- Armes -->
+    <string name="dague">Dague</string>
+    <string name="dague_magik">Dague Magik</string>
+    <string name="mithdague">Mithdague</string>
+    <string name="gradius">Gradius</string>
+    <string name="organix">Organix</string>
+    <string name="canif">Canif</string>
+    <string name="explodor">Explodor</string>
+    <string name="canif_runik">Canif Runik</string>
+    <string name="ange_bleu">Ange Bleu</string>
+    <string name="zorin">Zorin</string>
+    <string name="sargatanas">Sargatanas</string>
+    <string name="orichalque">Orichalque</string>
+    <string name="la_tour">La Tour</string>
 
     <!-- Additional Effect -->
     <string name="effect_mutism">Mutisme</string>
@@ -70,4 +35,73 @@
     <string name="effect_minimum_description">Occasionne les jets minimum de dégâts</string>
     <string name="effect_morphee">Morphée</string>
     <string name="effect_morphee_description">Endort la cible</string>
+
+
+    <!-- Djidane -->
+    <string name="app_name">FF9</string>
+    <string name="djidane_firstname">Djidane</string>
+    <string name="djidane_name">Tribal</string>
+    <string name="djidane_description">"Il n\'est pas tantalas pour rien. Spécialisé dans la cambriole, on passe son temps à l\'envoyer voler les ennemis lors des combats. C\'est gratuit et les surprises sont parfois bonnes ! Grâce à ses Compétences peu morales, djidane_first_name, décèle ce que les ennemis possèdent ( 3è oeil ). Il peut aussi voler plus facilement (Lupin). Voire voler ce qu\' il y a de mieux en face directement ! (Maître voleur). Quand il n\' est pas de taille et que l\' équipe est décimée, il vaut mieux prendre la fuite (Malandrin), surtout qu\' une Compétence permet de gagner des gils même à cette occasion. À le faire voler sans arrêt, on oublie presque que c\' est un puissant guerrier. Lors de la Transe, il use d\' attaques physiques extrêmement puissantes. Inutile d\' ses points de Magie, ils ne servent qu\'à cette occasion. Et pensez à activer sa Compétence Tonifiant en permanence."</string>
+
+    <!--Weapons-->
+    <string-array name="djidane_armes">
+        <item>Dague</item>
+        <item>Dague Magik</item>
+        <item>Mithdague</item>
+        <item>Gradius</item>
+        <item>Organix</item>
+        <item>Canif</item>
+        <item>Explodor</item>
+        <item>Canif Runik</item>
+        <item>Ange Bleu</item>
+        <item>Zorin</item>
+        <item>Sargatanas</item>
+        <item>Orichalque</item>
+        <item>La Tour</item>
+        <item>Monarch</item>
+    </string-array>
+
+    <!--Competences Combat-->
+    <string-array name="djidane_competences_combat">
+        <item>Malandrin</item>
+        <item>3ème Oeil</item>
+        <item>Embrouilles</item>
+        <item>Coudepot</item>
+        <item>Amépée</item>
+        <item>Regardez</item>
+        <item>Solidarité</item>
+        <item>Coffrer</item>
+    </string-array>
+
+    <!--Compétences Combat Description -->
+    <string-array name="djidane_competences_combat_description">
+        <item>Fuite au combat</item>
+        <item>"Affiche les possessions de l\' ennemi"</item>
+        <item>"Embrouille l\' ennemi"</item>
+        <item>Dégâts selon le niveau de chance</item>
+        <item>"Attaque infligeant l\' effet additionnel"</item>
+        <item>Attaque en premier</item>
+        <item>Don de vos HP et MP à vos alliés</item>
+        <item>Lance une attaque physique</item>
+    </string-array>
+
+
+
+
+    <!-- Competence Support -->
+    <string-array name="djidane_competences_support">
+        <item>Lupin</item>
+        <item>Galanterie</item>
+    </string-array>
+
+    <!-- Competence Support Description -->
+    <string-array name="djidane_competences_support_description">
+        <item>Augmente les chances de voler</item>
+        <item>"Encaisse le coup à la place d\' une fille"</item>
+    </string-array>
+
+
+
+
+
 </resources>
