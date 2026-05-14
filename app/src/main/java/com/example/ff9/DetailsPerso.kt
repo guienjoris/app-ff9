@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
@@ -53,6 +54,7 @@ import androidx.compose.ui.unit.sp
 import com.example.ff9.data.Perso
 import com.example.ff9.data.Weapon
 import com.example.ff9.data.persos
+import com.example.ff9.data.weaponsDjidane
 import com.example.ff9.ui.theme.FF9Theme
 
 
@@ -149,13 +151,13 @@ fun HistoryPerso(perso:Perso){
 
 @Composable
 fun WeaponsPerso(perso:Perso){
+    val weapons = getWeaponsData(perso)
+
     CardBloc(
         iconRes = defineIconCategory(Category.WEAPONS),
         text = Category.WEAPONS,
         content = {
-            HistoryContentExpandableCard(
-                stringResource(R.string.djidane_description)
-            )
+            WeaponsContentExpandableCard(weapons)
         }
     )
 }
@@ -216,12 +218,12 @@ private fun SkillsContentExpandableCard(skillsCombat: List<String>,
             .horizontalScroll(scrollState)
             .padding(5.dp)
     ) {
-        TableColumn(
+        TableByColumn(
             title = "Combat",
             names = skillsCombat,
-            modifier = Modifier.width(200.dp).fillMaxHeight()
+            modifier = Modifier.width(140.dp).fillMaxHeight()
         )
-        TableColumn(
+        TableByColumn(
             title = "Description",
             names = skillsCombatDescription,
             modifier = Modifier.width(200.dp).fillMaxHeight()
@@ -233,12 +235,12 @@ private fun SkillsContentExpandableCard(skillsCombat: List<String>,
             .horizontalScroll(scrollState)
             .padding(5.dp)
     ) {
-        TableColumn(
+        TableByColumn(
             title = "Support",
             names = skillsSupport,
-            modifier = Modifier.width(200.dp).fillMaxHeight()
+            modifier = Modifier.width(140.dp).fillMaxHeight()
         )
-        TableColumn(
+        TableByColumn(
             title = "Description",
             names = skillsSupportDescription,
             modifier = Modifier.width(200.dp).fillMaxHeight()
@@ -247,9 +249,65 @@ private fun SkillsContentExpandableCard(skillsCombat: List<String>,
 }
 
 @Composable
-fun TableColumn(title: String, names: List<String>, modifier: Modifier = Modifier) {
-    Column(modifier = modifier.wrapContentSize()) {
-        Text(text = title, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+fun WeaponsContentExpandableCard(weapons:List<Weapon>){
+    val scrollState = rememberScrollState()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .horizontalScroll(scrollState)
+            .padding(5.dp)
+    ) {
+        TableByRow(
+            titles = listOf(
+                "Nom de l'arme",
+                "Compétences de Combat",
+                "Compétences de Soutien",
+                "Effets supplémentaires",
+                "Caractéristiques"
+            ),
+            rowData = null,
+            modifier = Modifier
+        )
+
+        weapons.forEach { weapon ->
+            TableByRow(
+                titles= null,
+                rowData = weapon,
+                modifier = Modifier
+            )
+        }
+    }
+}
+
+@Composable
+fun TableByRow(titles: List<String>?,
+             rowData: Weapon?,
+             modifier: Modifier){
+        Column(){
+            Row{
+                titles?.forEach { title ->
+                    TextHeaderTable(title)
+                }
+            }
+            Row{
+                TextRowTable(text=rowData?.name ?: "")
+                TextRowTable(text=rowData?.competenceCombat ?: "")
+                TextRowTable(text=rowData?.competenceSupport ?: "")
+                TextRowTable(text=rowData?.additionalEffect ?: "")
+                TextRowTable(text=rowData?.description ?: "")
+            }
+        }
+}
+
+
+
+@Composable
+fun TableByColumn(title: String,
+                names: List<String>,
+                modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
+        TextHeaderTable(text = title)
         Spacer(modifier = Modifier.height(8.dp))
 
         // On affiche chaque compétence avec sa description
@@ -260,6 +318,23 @@ fun TableColumn(title: String, names: List<String>, modifier: Modifier = Modifie
                 ) }
         }
     }
+}
+
+@Composable
+private fun TextHeaderTable(text:String){
+    Text(text=text,
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp,
+        maxLines = 1,
+        modifier= Modifier.basicMarquee().width(175.dp)
+    )
+}
+@Composable
+private fun TextRowTable(text:String){
+    Text(text=text,
+        maxLines = 1,
+        modifier = Modifier.width(175.dp).basicMarquee()
+    )
 }
 
 @Composable
@@ -304,15 +379,13 @@ private fun getDonneesPerso(nomPerso: String, type: String): List<String> {
 }
 
 @Composable
-fun getWeaponsData(perso: Perso){
+fun getWeaponsData(perso: Perso): List<Weapon> {
     when(stringResource(perso.firstnameResourceId)){
         stringResource(R.string.djidane_firstname) ->{
-            val weaponsList = getDonneesPerso(stringResource(R.string.djidane_firstname),"armes")
-            val weaponsListWithData = listOf<Weapon>(
-                Weapon(weaponsList[0])
-            )
+            return weaponsDjidane()
         }
     }
+    throw Error("Ce perso n'existe pas ")
 }
 
 @Preview(showBackground = true)

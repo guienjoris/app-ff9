@@ -1,24 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources [
+    <!ENTITY dague "Dague">
+    <!ENTITY dague_magik "Dague Magik">
+    <!ENTITY mithdague "Mithdague">
+    <!ENTITY gradius "Gradius">
+    <!ENTITY organix "Organix">
+    <!ENTITY canif "Canif">
+    <!ENTITY explodor "Explodor">
+    <!ENTITY canif_runik "Canif Runik">
+    <!ENTITY ange_bleu "Ange Bleu">
+    <!ENTITY zorin "Zorin">
+    <!ENTITY sargatanas "Sargatanas">
+    <!ENTITY orichalque "Orichalque">
+    <!ENTITY la_tour "La Tour">
+    <!ENTITY monarch "Monarch">
+    <!ENTITY malandrin "Malandrin">
+    <!ENTITY troisieme_oeil "3ème Oeil">
+    <!ENTITY embrouilles "Embrouilles">
+    <!ENTITY coudepot "Coudepot">
+    <!ENTITY amepee "Amépée">
+    <!ENTITY regardez "Regardez">
+    <!ENTITY solidarite "Solidarité">
+    <!ENTITY coffrer "Coffrer">
+    <!ENTITY lupin "Lupin">
+    <!ENTITY galanterie "Galanterie">
+    ]>
 <resources>
     <!-- Global -->
     <!-- Armes -->
-    <string name="dague">Dague</string>
-    <string name="dague_magik">Dague Magik</string>
-    <string name="mithdague">Mithdague</string>
-    <string name="gradius">Gradius</string>
-    <string name="organix">Organix</string>
-    <string name="canif">Canif</string>
-    <string name="explodor">Explodor</string>
-    <string name="canif_runik">Canif Runik</string>
-    <string name="ange_bleu">Ange Bleu</string>
-    <string name="zorin">Zorin</string>
-    <string name="sargatanas">Sargatanas</string>
-    <string name="orichalque">Orichalque</string>
-    <string name="la_tour">La Tour</string>
+    <string name="dague">&dague;</string>
+    <string name="dague_magik">&dague_magik;</string>
+    <string name="mithdague">&mithdague;</string>
+    <string name="gradius">&gradius;</string>
+    <string name="organix">&organix;</string>
+    <string name="canif">&canif;</string>
+    <string name="explodor">&explodor;</string>
+    <string name="canif_runik">&canif_runik;</string>
+    <string name="ange_bleu">&ange_bleu;</string>
+    <string name="zorin">&zorin;</string>
+    <string name="sargatanas">&sargatanas;</string>
+    <string name="orichalque">&orichalque;</string>
+    <string name="la_tour">&la_tour;</string>
+    <string name="monarch">&monarch;</string>
+
+    <!-- Compétences -->
+    <string name="malandrin">&malandrin;</string>
+    <string name="troisieme_oeil">&troisieme_oeil;</string>
+    <string name="embrouilles">&embrouilles;</string>
+    <string name="coudepot">&coudepot;</string>
+    <string name="amepee">&amepee;</string>
+    <string name="regardez">&regardez;</string>
+    <string name="solidarite">&solidarite;</string>
+    <string name="coffrer">&coffrer;</string>
+
+    <!-- Description Compétences Combat-->
+    <string name="desc_malandrin">Permet de prendre la fuite au combat.</string>
+    <string name="desc_troisieme_oeil">Affiche les possessions de l\'ennemi.</string>
+    <string name="desc_embrouilles">&embrouilles; l\'ennemi pour le déstabiliser.</string>
+    <string name="desc_coudepot">Dégâts calculés selon le niveau de chance.</string>
+    <string name="desc_amepee">Attaque infligeant l\'effet additionnel de l\'arme équipée.</string>
+    <string name="desc_regardez">Permet d\'attaquer en premier.</string>
+    <string name="desc_solidarite">Don de vos HP et MP à vos alliés.</string>
+    <string name="desc_coffrer">Lance une attaque physique redoutable.</string>
+
+    <!-- Description Compétences Support -->
+    <string name="desc_lupin">Augmente les chances de voler</string>
+    <string name="desc_galanterie">"Encaisse le coup à la place d\' une fille"</string>
 
     <!-- Additional Effect -->
-    <string name="effect_mutism">Mutisme</string>
-    <string name="effect_mutism_description">Sort de mutisme sur ennemi</string>
+    <string name="effect_mutisme">Mutisme</string>
+    <string name="effect_mutisme_description">Sort de mutisme sur ennemi</string>
     <string name="effect_somni">Somni</string>
     <string name="effect_somni_description">"Ralentit l\' ennemi"</string>
     <string name="effect_obscurite">Obscurité</string>
@@ -36,6 +87,7 @@
     <string name="effect_morphee">Morphée</string>
     <string name="effect_morphee_description">Endort la cible</string>
 
+    <!-- ########################################################################################### -->
 
     <!-- Djidane -->
     <string name="app_name">FF9</string>
@@ -43,61 +95,61 @@
     <string name="djidane_name">Tribal</string>
     <string name="djidane_description">"Il n\'est pas tantalas pour rien. Spécialisé dans la cambriole, on passe son temps à l\'envoyer voler les ennemis lors des combats. C\'est gratuit et les surprises sont parfois bonnes ! Grâce à ses Compétences peu morales, djidane_first_name, décèle ce que les ennemis possèdent ( 3è oeil ). Il peut aussi voler plus facilement (Lupin). Voire voler ce qu\' il y a de mieux en face directement ! (Maître voleur). Quand il n\' est pas de taille et que l\' équipe est décimée, il vaut mieux prendre la fuite (Malandrin), surtout qu\' une Compétence permet de gagner des gils même à cette occasion. À le faire voler sans arrêt, on oublie presque que c\' est un puissant guerrier. Lors de la Transe, il use d\' attaques physiques extrêmement puissantes. Inutile d\' ses points de Magie, ils ne servent qu\'à cette occasion. Et pensez à activer sa Compétence Tonifiant en permanence."</string>
 
-    <!--Weapons-->
+    <!--Weapons Djidane-->
     <string-array name="djidane_armes">
-        <item>Dague</item>
-        <item>Dague Magik</item>
-        <item>Mithdague</item>
-        <item>Gradius</item>
-        <item>Organix</item>
-        <item>Canif</item>
-        <item>Explodor</item>
-        <item>Canif Runik</item>
-        <item>Ange Bleu</item>
-        <item>Zorin</item>
-        <item>Sargatanas</item>
-        <item>Orichalque</item>
-        <item>La Tour</item>
-        <item>Monarch</item>
+        <item>&dague;</item>
+        <item>&dague_magik;</item>
+        <item>&mithdague;</item>
+        <item>&gradius;</item>
+        <item>&organix;</item>
+        <item>&canif;</item>
+        <item>&explodor;</item>
+        <item>&canif_runik;</item>
+        <item>&ange_bleu;</item>
+        <item>&zorin;</item>
+        <item>&sargatanas;</item>
+        <item>&orichalque;</item>
+        <item>&la_tour;</item>
+        <item>&monarch;</item>
     </string-array>
 
-    <!--Competences Combat-->
+    <!--Competences Combat Djidane-->
     <string-array name="djidane_competences_combat">
-        <item>Malandrin</item>
-        <item>3ème Oeil</item>
-        <item>Embrouilles</item>
-        <item>Coudepot</item>
-        <item>Amépée</item>
-        <item>Regardez</item>
-        <item>Solidarité</item>
-        <item>Coffrer</item>
+        <item>&malandrin;</item>
+        <item>&troisieme_oeil;</item>
+        <item>&embrouilles;</item>
+        <item>&coudepot;</item>
+        <item>&amepee;</item>
+        <item>&regardez;</item>
+        <item>&solidarite;</item>
+        <item>&coffrer;</item>
     </string-array>
 
-    <!--Compétences Combat Description -->
+    <!--Compétences Combat Description Djidane-->
     <string-array name="djidane_competences_combat_description">
-        <item>Fuite au combat</item>
-        <item>"Affiche les possessions de l\' ennemi"</item>
-        <item>"Embrouille l\' ennemi"</item>
-        <item>Dégâts selon le niveau de chance</item>
-        <item>"Attaque infligeant l\' effet additionnel"</item>
-        <item>Attaque en premier</item>
-        <item>Don de vos HP et MP à vos alliés</item>
-        <item>Lance une attaque physique</item>
+        <item>@string/desc_malandrin</item>
+        <item>@string/desc_troisieme_oeil</item>
+        <item>@string/desc_embrouilles</item>
+        <item>@string/desc_coudepot</item>
+        <item>@string/desc_amepee</item>
+        <item>@string/desc_regardez</item>
+        <item>@string/desc_solidarite</item>
+        <item>@string/desc_coffrer</item>
     </string-array>
 
 
 
 
-    <!-- Competence Support -->
+    <!-- Competence Support Djidane-->
     <string-array name="djidane_competences_support">
-        <item>Lupin</item>
-        <item>Galanterie</item>
+        <item>&lupin;</item>
+        <item>&galanterie;</item>
     </string-array>
 
-    <!-- Competence Support Description -->
+    <!-- Competence Support Description Djidane -->
     <string-array name="djidane_competences_support_description">
-        <item>Augmente les chances de voler</item>
-        <item>"Encaisse le coup à la place d\' une fille"</item>
+        <item>@string/desc_lupin</item>
+        <item>@string/desc_galanterie</item>
     </string-array>
 
 
