@@ -54,14 +54,14 @@
     <string name="coffrer">&coffrer;</string>
 
     <!-- Description Compétences Combat-->
-    <string name="desc_malandrin">Permet de prendre la fuite au combat.</string>
-    <string name="desc_troisieme_oeil">Affiche les possessions de l\'ennemi.</string>
-    <string name="desc_embrouilles">&embrouilles; l\'ennemi pour le déstabiliser.</string>
-    <string name="desc_coudepot">Dégâts calculés selon le niveau de chance.</string>
-    <string name="desc_amepee">Attaque infligeant l\'effet additionnel de l\'arme équipée.</string>
-    <string name="desc_regardez">Permet d\'attaquer en premier.</string>
-    <string name="desc_solidarite">Don de vos HP et MP à vos alliés.</string>
-    <string name="desc_coffrer">Lance une attaque physique redoutable.</string>
+    <string name="desc_malandrin">Permet de prendre la fuite au combat</string>
+    <string name="desc_troisieme_oeil">Affiche les possessions de l\'ennemi</string>
+    <string name="desc_embrouilles">&embrouilles; l\'ennemi pour le déstabiliser</string>
+    <string name="desc_coudepot">Dégâts calculés selon le niveau de chance</string>
+    <string name="desc_amepee">Attaque infligeant l\'effet additionnel de l\'arme équipée</string>
+    <string name="desc_regardez">Permet d\'attaquer en premier</string>
+    <string name="desc_solidarite">Don de vos HP et MP à vos alliés</string>
+    <string name="desc_coffrer">Lance une attaque physique redoutable</string>
 
     <!-- Description Compétences Support -->
     <string name="desc_lupin">Augmente les chances de voler</string>

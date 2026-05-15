@@ -53,9 +53,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 import com.example.ff9.ui.theme.FF9Theme
 import com.example.ff9.data.Perso
 import com.example.ff9.data.persos
+
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,88 +67,31 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             FF9Theme {
-                FF9App()
-            }
-        }
-    }
-}
+                Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
+                    com.example.ff9.FFTopAppBar(modifier = Modifier.padding(bottom = 10.dp))
+                }) { innerPadding ->
+                    Column(modifier= Modifier.padding(innerPadding)){
+                        AppNavigation()
+                    }
 
-@Composable
-fun FF9App(){
-    var selectedPerso: Perso? by remember { mutableStateOf(null)}
-
-    val onSelectedPerso = { it:Perso -> selectedPerso = it}
-
-    Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-        FFTopAppBar(modifier=Modifier.padding(bottom=10.dp))
-    }) { innerPadding ->
-        if (selectedPerso !== null){
-            Column(modifier=Modifier.padding(innerPadding)){
-                IconButton(onClick = {selectedPerso = null}) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "icône pour afficher ou pas le contenu",
-                        tint = MaterialTheme.colorScheme.secondary
-                    )
                 }
-                CardPersoDetails(selectedPerso!!)
             }
-        }else{
-            ListChoosePerso(innerPadding,onSelectedPerso)
-        }
-
-
-    }
-}
-
-@Composable
-fun CardChoosePerso(perso: Perso,onSelectedPerso:(Perso)-> Unit){
-
-
-        Card(modifier = Modifier,
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer
-            )
-            ) {
-            Row(horizontalArrangement = Arrangement.spacedBy(5.dp),
-                modifier = Modifier.fillMaxSize()
-                    .clickable(enabled=true,
-                        onClick = {onSelectedPerso(perso)}
-                    ),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Image(painter = painterResource(perso.profilePictureId),
-                    contentDescription = null,
-
-                    )
-                Text(text= stringResource(perso.firstnameResourceId),
-                    style= MaterialTheme.typography.titleLarge
-                )
-                Text(text= stringResource(perso.nameResourceId),
-                    style= MaterialTheme.typography.titleLarge
-                )
-
-
         }
     }
-
 }
 
 
 
 @Composable
-fun ListChoosePerso(innerPadding: PaddingValues,onSelectedPerso:(Perso)-> Unit){
-
-    LazyVerticalGrid(columns= GridCells.Fixed(2),
-    contentPadding = innerPadding,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier.padding(8.dp)
-        ) {
-            items(persos){ perso ->
-                CardChoosePerso(perso,onSelectedPerso)
-            }
+fun HomeScreen( onNavigateToListPersos:  () -> Unit){
+    Column(horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier= Modifier.fillMaxWidth()){
+        Button(onClick = onNavigateToListPersos ) {
+            Text(text="Personnages")
+        }
     }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -169,10 +116,28 @@ fun FFTopAppBar(modifier: Modifier = Modifier) {
     )
 }
 
+@Composable
+fun ButtonBack(onBack:() -> Unit){
+    IconButton(onClick = onBack) {
+        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+            tint=MaterialTheme.colorScheme.tertiary,
+            contentDescription = "Back to the previous page"
+            )
+    }
+}
+
+
 @Preview(showBackground = true)
 @Composable
 fun FF9Preview() {
     FF9Theme {
-        FF9App()
+        Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
+            com.example.ff9.FFTopAppBar(modifier = Modifier.padding(bottom = 10.dp))
+        }) { innerPadding ->
+            Column(modifier= Modifier.padding(innerPadding)){
+                AppNavigation()
+            }
+
+        }
     }
 }

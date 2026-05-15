@@ -10,6 +10,7 @@ data class Weapon(
     val competenceCombat: String?,
     val competenceSupport: String?,
     val additionalEffect: String?,
+    val iconResourceId: Int?,
     val description: String?
 )
 
@@ -20,6 +21,7 @@ fun weaponsDjidane(): List<Weapon> {
             competenceCombat = stringResource(R.string.malandrin),
             competenceSupport = null,
             additionalEffect= null,
+            iconResourceId = R.drawable.dagger_icon,
             description = stringResource(R.string.desc_malandrin)
         ),
         Weapon(name = stringResource(R.string.dague_magik),
@@ -27,6 +29,7 @@ fun weaponsDjidane(): List<Weapon> {
                     stringResource(R.string.troisieme_oeil),
             competenceSupport = null,
             additionalEffect = stringResource(R.string.effect_mutisme),
+            iconResourceId = R.drawable.dagger_icon,
             description = stringResource(R.string.desc_malandrin) + ", " +
                     stringResource(R.string.desc_troisieme_oeil) + ", " +
                     stringResource(R.string.effect_mutisme_description)
