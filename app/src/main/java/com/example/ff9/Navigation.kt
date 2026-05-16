@@ -11,8 +11,9 @@ import androidx.navigation.navArgument
 
 object Routes {
     const val screenHome = "screen_home"
-    const val screenChoosePerso = "screen_choose_perso"
-    const val screenDetailsPerso = "screen_details_perso"
+    const val screenChooseCharacter = "screen_choose_character"
+    const val screenDetailsCharacter = "screen_details_character"
+
 }
 
 @Composable
@@ -29,40 +30,40 @@ fun AppNavigation() {
         // Écran A
         composable(Routes.screenHome) {
             HomeScreen(
-                onNavigateToListPersos = {
-                    navController.navigate(Routes.screenChoosePerso)
+                onNavigateToListCharacters = {
+                    navController.navigate(Routes.screenChooseCharacter)
                 }
             )
         }
 
-        composable(Routes.screenChoosePerso) {
+        composable(Routes.screenChooseCharacter) {
 
-            val choosePersoViewModel: ChoosePersoViewModel = viewModel()
-            ListChoosePersoScreen(
-                choosePersoViewModel,
+            val chooseCharacterViewModel: ChooseCharacterViewModel = viewModel()
+            ListChooseCharacterScreen(
+                chooseCharacterViewModel,
                 onBack = { navController.popBackStack() },
-                onNavigateToPersoDetails = { idPerso ->
-                    navController.navigate("${Routes.screenDetailsPerso}/$idPerso")
+                onNavigateToCharacterDetails = { idCharacter ->
+                    navController.navigate("${Routes.screenDetailsCharacter}/$idCharacter")
                 }
             )
         }
 
         composable(
-            route = "${Routes.screenDetailsPerso}/{idPerso}",
-            arguments = listOf(navArgument("idPerso") { type = NavType.StringType })
+            route = "${Routes.screenDetailsCharacter}/{idCharacter}",
+            arguments = listOf(navArgument("idCharacter") { type = NavType.StringType })
         ) { backStackEntry ->
 
-            val detailsPersoViewModel: DetailsPersoViewModel = viewModel()
+            val detailsCharacterViewModel: DetailsCharacterViewModel = viewModel()
 
-            val persoIdParams = backStackEntry.arguments?.getString("idPerso")?.toInt() ?: 0
+            val characterIdParams = backStackEntry.arguments?.getString("idCharacter")?.toInt() ?: 0
 
-            LaunchedEffect(persoIdParams) {
-                detailsPersoViewModel.getPersoById(persoIdParams)
+            LaunchedEffect(characterIdParams) {
+                detailsCharacterViewModel.getCharacterById(characterIdParams)
             }
 
-            DetailsPersoScreen(
-                detailsPersoViewModel,
-                onBack = { navController.popBackStack(Routes.screenChoosePerso,inclusive = false) }
+            DetailsCharacterScreen(
+                detailsCharacterViewModel,
+                onBack = { navController.popBackStack(Routes.screenChooseCharacter,inclusive = false) }
             )
         }
     }

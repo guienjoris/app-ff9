@@ -4,9 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "table_perso")
-data class Perso (
-    @PrimaryKey val id: Int,
+@Entity(tableName = "table_character")
+data class Character (
+    @PrimaryKey val idCharacter: Int,
     @ColumnInfo(name = "first_name") val firstName: String,
     @ColumnInfo(name = "last_name") val lastName: String?,
     @ColumnInfo(name="description") val description : String?,

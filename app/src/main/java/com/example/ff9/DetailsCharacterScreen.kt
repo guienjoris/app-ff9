@@ -47,14 +47,12 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.ff9.data.entities.Perso
+import com.example.ff9.data.entities.Character
 import com.example.ff9.data.Weapon
-import com.example.ff9.data.weaponsDjidane
 
 
 enum class Category(val value: String){
@@ -63,11 +61,11 @@ enum class Category(val value: String){
     WEAPONS("Armes")
 }
 @Composable
-fun DetailsPersoScreen(viewModel: DetailsPersoViewModel, onBack: ()-> Unit){
+fun DetailsCharacterScreen(viewModel: DetailsCharacterViewModel, onBack: ()-> Unit){
 
-    val perso by viewModel.personnageState.collectAsState()
+    val character by viewModel.characterState.collectAsState()
 
-    if(perso != null){
+    if(character != null){
         Column(modifier = Modifier.padding(8.dp)) {
             ButtonBack(onBack)
             Row(horizontalArrangement = Arrangement.SpaceEvenly,
@@ -76,24 +74,24 @@ fun DetailsPersoScreen(viewModel: DetailsPersoViewModel, onBack: ()-> Unit){
                     .fillMaxWidth()
                     .padding(12.dp)
             ) {
-                Image(painter = painterResource(getResIdByName(perso?.pictureId)),
-                    contentDescription = "Profile ${perso?.firstName ?: ""} ")
+                Image(painter = painterResource(getResIdByName(character?.pictureId)),
+                    contentDescription = "Profile ${character?.firstName ?: ""} ")
                 Row() {
-                    Text(text= perso?.firstName ?: "",
+                    Text(text= character?.firstName ?: "",
                         style= MaterialTheme.typography.titleLarge
                     )
                     Spacer(modifier=Modifier.width(8.dp))
-                    Text(text= perso?.lastName ?: "",
+                    Text(text= character?.lastName ?: "",
                         style= MaterialTheme.typography.titleLarge
                     )
                 }
 
             }
-            HistoryPerso(perso!!)
+            HistoryCharacter(character!!)
             Spacer(Modifier.height(8.dp))
-            SkillsPerso(perso!!)
+            SkillsCharacter(character!!)
             Spacer(Modifier.height(8.dp))
-            WeaponsPerso(perso!!)
+            WeaponsCharacter(character!!)
         }
     }else{
         Text(text = "Chargement des caractéristiques du personnage...")
@@ -111,22 +109,22 @@ fun defineIconCategory(blocName: Category): Painter{
 }
 
 @Composable
-fun SkillsPerso(perso:Perso){
-    val skillsCombat = getDonneesPerso(
-        perso.firstName,
+fun SkillsCharacter(character: Character){
+    val skillsCombat = getDonneesCharacter(
+        character.firstName,
         type = "competences_combat"
         )
-    val skillsCombatDescription = getDonneesPerso(
-        perso.firstName,
+    val skillsCombatDescription = getDonneesCharacter(
+        character.firstName,
         type = "competences_combat_description"
     )
 
-    val skillsSupport= getDonneesPerso(
-        perso.firstName,
+    val skillsSupport= getDonneesCharacter(
+        character.firstName,
         type = "competences_support"
     )
-    val skillsSupportDescription = getDonneesPerso(
-        perso.firstName,
+    val skillsSupportDescription = getDonneesCharacter(
+        character.firstName,
         type = "competences_support_description"
     )
 
@@ -145,21 +143,21 @@ fun SkillsPerso(perso:Perso){
 }
 
 @Composable
-fun HistoryPerso(perso:Perso){
+fun HistoryCharacter(character: Character){
     CardBloc(
         iconRes = defineIconCategory(Category.HISTORY),
         text = Category.HISTORY,
         content = {
             HistoryContentExpandableCard(
-                perso.description ?: ""
+                character.description ?: ""
             )
         }
     )
 }
 
 @Composable
-fun WeaponsPerso(perso:Perso){
-    /*val weapons = getWeaponsData(perso)
+fun WeaponsCharacter(character: Character){
+    /*val weapons = getWeaponsData(character)
 
     CardBloc(
         iconRes = defineIconCategory(Category.WEAPONS),
@@ -424,7 +422,7 @@ private fun ExpandCardButton(
 
 @SuppressLint("DiscouragedApi")
 @Composable
-private fun getDonneesPerso(nomPerso: String, type: String): List<String> {
+private fun getDonneesCharacter(nameCharacter: String, type: String): List<String> {
     // Handling preview mode to avoid getStringArray issue in some IDE versions
     if (LocalInspectionMode.current) {
         return listOf("Donnée Preview 1", "Donnée Preview 2")
@@ -432,7 +430,7 @@ private fun getDonneesPerso(nomPerso: String, type: String): List<String> {
 
     val context = LocalContext.current
     // On construit le nom de la clé : ex "mage_competences"
-    val resourceName = "${nomPerso.lowercase()}_$type"
+    val resourceName = "${nameCharacter.lowercase()}_$type"
 
     // On cherche l'ID du string-array
     val resId = context.resources.getIdentifier(resourceName, "array", context.packageName)

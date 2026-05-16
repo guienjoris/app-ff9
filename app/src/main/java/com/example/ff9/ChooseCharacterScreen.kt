@@ -22,16 +22,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.ff9.data.entities.Perso
+import com.example.ff9.data.entities.Character
 
 @Composable
-fun ListChoosePersoScreen(viewModel: ChoosePersoViewModel, onBack: () -> Unit, onNavigateToPersoDetails:(idPerso:Int)-> Unit){
-    val persos by viewModel.persoState.collectAsState()
-    ListChoosePerso(persos,onNavigateToPersoDetails,onBack)
+fun ListChooseCharacterScreen(viewModel: ChooseCharacterViewModel, onBack: () -> Unit, onNavigateToCharacterDetails:(idCharacter:Int)-> Unit){
+    val characters by viewModel.characterState.collectAsState()
+    ListChooseCharacter(characters,onNavigateToCharacterDetails,onBack)
 }
 
 @Composable
-fun ListChoosePerso(persos: List<Perso>, onNavigateToPersoDetails:(Int)-> Unit, onBack:() -> Unit){
+fun ListChooseCharacter(characters: List<Character>, onNavigateToCharacterDetails:(Int)-> Unit, onBack:() -> Unit){
     Column{
         ButtonBack(onBack)
 
@@ -41,15 +41,15 @@ fun ListChoosePerso(persos: List<Perso>, onNavigateToPersoDetails:(Int)-> Unit, 
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(8.dp)
         ) {
-            items(persos){ perso ->
-                CardChoosePerso(perso,onNavigateToPersoDetails)
+            items(characters){ character ->
+                CardChooseCharacter(character,onNavigateToCharacterDetails)
             }
         }
     }
 }
 
 @Composable
-fun CardChoosePerso(perso: Perso,onNavigateToPersoDetails:(Int)-> Unit){
+fun CardChooseCharacter(character: Character, onNavigateToCharacterDetails:(Int)-> Unit){
 
 
     Card(modifier = Modifier,
@@ -60,18 +60,18 @@ fun CardChoosePerso(perso: Perso,onNavigateToPersoDetails:(Int)-> Unit){
         Row(horizontalArrangement = Arrangement.spacedBy(5.dp),
             modifier = Modifier.fillMaxSize()
                 .clickable(enabled=true,
-                    onClick = {onNavigateToPersoDetails(perso.id)}
+                    onClick = {onNavigateToCharacterDetails(character.idCharacter)}
                 ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Image(painter = painterResource(getResIdByName(perso.profilePictureId) ?: R.drawable.logo_ico),
+            Image(painter = painterResource(getResIdByName(character.profilePictureId)),
                 contentDescription = null,
 
                 )
-            Text(text= perso.firstName,
+            Text(text= character.firstName,
                 style= MaterialTheme.typography.titleLarge
             )
-            Text(text=perso.lastName ?: "",
+            Text(text=character.lastName ?: "",
                 style= MaterialTheme.typography.titleLarge
             )
 

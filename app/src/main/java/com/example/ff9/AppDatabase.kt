@@ -4,14 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.ff9.data.dao.PersoDao
-import com.example.ff9.data.entities.Perso
+import com.example.ff9.data.dao.CharacterDao
+import com.example.ff9.data.entities.Character
 
 // On liste les entités et on définit la version de la base
-@Database(entities = [Perso::class], version = 2, exportSchema = false)
+@Database(entities = [Character::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun persoDao(): PersoDao
+    abstract fun characterDao(): CharacterDao
 
     // Singleton pour éviter d'ouvrir plusieurs instances de la base de données en même temps
     companion object {
