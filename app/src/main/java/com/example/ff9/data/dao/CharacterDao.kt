@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CharacterDao {
-    @Query("SELECT * FROM table_character ORDER BY idCharacter DESC")
+    @Query("SELECT * FROM table_character ORDER BY id DESC")
     fun getAllCharacters(): Flow<List<Character>>
 
-    @Query("SELECT * FROM table_character WHERE idCharacter = :id")
+    @Query("SELECT * FROM table_character WHERE id = :id")
     suspend fun getCharacterById(id: Int): Character?
 }
