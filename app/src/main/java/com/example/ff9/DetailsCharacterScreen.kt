@@ -53,6 +53,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ff9.data.entities.Character
 import com.example.ff9.data.Weapon
+import com.example.ff9.data.entities.SkillCombat
+import com.example.ff9.data.entities.SkillSupport
 
 
 enum class Category(val value: String){
@@ -64,6 +66,9 @@ enum class Category(val value: String){
 fun DetailsCharacterScreen(viewModel: DetailsCharacterViewModel, onBack: ()-> Unit){
 
     val character by viewModel.characterState.collectAsState()
+    val skillsCombat by viewModel.skillsCombatState.collectAsState()
+    val skillsSupport by viewModel.skillsSupportState.collectAsState()
+
 
     if(character != null){
         Column(modifier = Modifier.padding(8.dp)) {
@@ -89,7 +94,7 @@ fun DetailsCharacterScreen(viewModel: DetailsCharacterViewModel, onBack: ()-> Un
             }
             HistoryCharacter(character!!)
             Spacer(Modifier.height(8.dp))
-            SkillsCharacter(character!!)
+            SkillsCharacter(skillsCombat,skillsSupport)
             Spacer(Modifier.height(8.dp))
             WeaponsCharacter(character!!)
         }
@@ -109,8 +114,8 @@ fun defineIconCategory(blocName: Category): Painter{
 }
 
 @Composable
-fun SkillsCharacter(character: Character){
-    val skillsCombat = getDonneesCharacter(
+fun SkillsCharacter(skillsCombat: List<SkillCombat>?,skillSupport: List<SkillSupport>?){
+    /*val skillsCombat = getDonneesCharacter(
         character.firstName,
         type = "competences_combat"
         )
@@ -126,20 +131,25 @@ fun SkillsCharacter(character: Character){
     val skillsSupportDescription = getDonneesCharacter(
         character.firstName,
         type = "competences_support_description"
-    )
+    )*/
 
-    CardBloc(
-        iconRes = defineIconCategory(Category.SKILLS),
+
+    if(skillsCombat != null && skillSupport!= null) {
+        CardBloc(
+            iconRes = defineIconCategory(Category.SKILLS),
             text = Category.SKILLS,
             content = {
                 SkillsContentExpandableCard(
                     skillsCombat,
-                    skillsCombatDescription,
-                    skillsSupport,
-                    skillsSupportDescription
+                    skillSupport
                 )
             }
         )
+    }else{
+        Text(text="Chargement des données du personnage")
+    }
+
+
 }
 
 @Composable
@@ -216,23 +226,21 @@ private fun HistoryContentExpandableCard(text:String){
 }
 
 @Composable
-private fun SkillsContentExpandableCard(skillsCombat: List<String>,
-                                        skillsCombatDescription: List<String>,
-                                        skillsSupport: List<String>,
-                                        skillsSupportDescription:List<String>
+private fun SkillsContentExpandableCard(skillsCombat: List<SkillCombat>,
+                                        skillsSupport: List<SkillSupport>
                                         ){
     // Si tes listes sont très larges, on ajoute le scroll horizontal
 
     Column(modifier=Modifier.fillMaxHeight()){
         GridSection(title="Compétences de combat",
-            lists=skillsCombat.map{ComposableOrText.Text(it)},
-            listDescription = skillsCombatDescription.map{ ComposableOrText.Text(it)},
+            lists=skillsCombat.map{ComposableOrText.Text(it.name)},
+            listDescription = skillsCombat.map{ ComposableOrText.Text(it.description)},
             globalPainter= painterResource(R.drawable.combat_skill_icon),
             height = 300.dp
         )
         GridSection(title="Compétences de soutien",
-            lists=skillsSupport.map{ComposableOrText.Text(it)},
-            listDescription = skillsSupportDescription.map{ ComposableOrText.Text(it)},
+            lists=skillsSupport.map{ComposableOrText.Text(it.name)},
+            listDescription = skillsSupport.map{ ComposableOrText.Text(it.description)},
             globalPainter = painterResource(R.drawable.support_skill_icon),
             height = 100.dp
         )
