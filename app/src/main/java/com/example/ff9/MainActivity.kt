@@ -1,5 +1,6 @@
 package com.example.ff9
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -48,6 +49,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -65,6 +67,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
             FF9Theme {
                 Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
@@ -99,7 +102,8 @@ fun HomeScreen( onNavigateToListPersos:  () -> Unit){
 fun FFTopAppBar(modifier: Modifier = Modifier) {
     CenterAlignedTopAppBar(
         title = {
-            Row(verticalAlignment = Alignment.CenterVertically,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
 
                 ) {
@@ -115,6 +119,20 @@ fun FFTopAppBar(modifier: Modifier = Modifier) {
         modifier = modifier.height(90.dp)
     )
 }
+@SuppressLint("DiscouragedApi")
+@Composable
+fun getResIdByName(resName: String?): Int {
+    if (resName == null) return R.drawable.logo_ico // Image par défaut si vide
+
+    val context = LocalContext.current
+    // On nettoie le nom au cas où tu as écrit "R.drawable.nom" au lieu de juste "nom"
+    val cleanName = resName.replace("R.drawable.", "")
+
+    // C'est l'équivalent de faire R.drawable.$nom
+    val resId = context.resources.getIdentifier(cleanName, "drawable", context.packageName)
+
+    return if (resId != 0) resId else R.drawable.logo_ico // On gère si l'image n'existe pas
+}
 
 @Composable
 fun ButtonBack(onBack:() -> Unit){
@@ -127,17 +145,3 @@ fun ButtonBack(onBack:() -> Unit){
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun FF9Preview() {
-    FF9Theme {
-        Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-            com.example.ff9.FFTopAppBar(modifier = Modifier.padding(bottom = 10.dp))
-        }) { innerPadding ->
-            Column(modifier= Modifier.padding(innerPadding)){
-                AppNavigation()
-            }
-
-        }
-    }
-}

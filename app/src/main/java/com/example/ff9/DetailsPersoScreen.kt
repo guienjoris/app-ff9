@@ -3,9 +3,6 @@ package com.example.ff9
 import android.annotation.SuppressLint
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -18,36 +15,25 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
-import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
-import androidx.compose.material3.Divider
-import androidx.compose.material3.DividerDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -58,22 +44,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.ff9.data.Perso
+import com.example.ff9.data.entities.Perso
 import com.example.ff9.data.Weapon
-import com.example.ff9.data.persos
 import com.example.ff9.data.weaponsDjidane
-import com.example.ff9.ui.theme.FF9Theme
 
 
 enum class Category(val value: String){
@@ -82,36 +63,40 @@ enum class Category(val value: String){
     WEAPONS("Armes")
 }
 @Composable
-fun PersoDetailsView( indexPerso: String,onBack: ()-> Unit){
+fun DetailsPersoScreen(viewModel: DetailsPersoViewModel, onBack: ()-> Unit){
 
-    val perso = persos[indexPerso.toInt()]
+    val perso by viewModel.personnageState.collectAsState()
 
-    Column(modifier = Modifier.padding(8.dp)) {
-        ButtonBack(onBack)
-        Row(horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier=Modifier
-                .fillMaxWidth()
-                .padding(12.dp)
+    if(perso != null){
+        Column(modifier = Modifier.padding(8.dp)) {
+            ButtonBack(onBack)
+            Row(horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier=Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp)
             ) {
-            Image(painter = painterResource(perso.pictureId),
-                contentDescription = "Profile ${stringResource(perso.firstnameResourceId)} ")
-            Row() {
-                Text(text= stringResource(perso.firstnameResourceId),
-                    style= MaterialTheme.typography.titleLarge
-                )
-                Spacer(modifier=Modifier.width(8.dp))
-                Text(text= stringResource(perso.nameResourceId),
-                    style= MaterialTheme.typography.titleLarge
-                )
-            }
+                Image(painter = painterResource(getResIdByName(perso?.pictureId)),
+                    contentDescription = "Profile ${perso?.firstName ?: ""} ")
+                Row() {
+                    Text(text= perso?.firstName ?: "",
+                        style= MaterialTheme.typography.titleLarge
+                    )
+                    Spacer(modifier=Modifier.width(8.dp))
+                    Text(text= perso?.lastName ?: "",
+                        style= MaterialTheme.typography.titleLarge
+                    )
+                }
 
+            }
+            HistoryPerso(perso!!)
+            Spacer(Modifier.height(8.dp))
+            SkillsPerso(perso!!)
+            Spacer(Modifier.height(8.dp))
+            WeaponsPerso(perso!!)
         }
-        HistoryPerso(perso)
-        Spacer(Modifier.height(8.dp))
-        SkillsPerso(perso)
-        Spacer(Modifier.height(8.dp))
-        WeaponsPerso(perso)
+    }else{
+        Text(text = "Chargement des caractéristiques du personnage...")
     }
 }
 
@@ -128,20 +113,20 @@ fun defineIconCategory(blocName: Category): Painter{
 @Composable
 fun SkillsPerso(perso:Perso){
     val skillsCombat = getDonneesPerso(
-        stringResource(perso.firstnameResourceId),
+        perso.firstName,
         type = "competences_combat"
         )
     val skillsCombatDescription = getDonneesPerso(
-        stringResource(perso.firstnameResourceId),
+        perso.firstName,
         type = "competences_combat_description"
     )
 
     val skillsSupport= getDonneesPerso(
-        stringResource(perso.firstnameResourceId),
+        perso.firstName,
         type = "competences_support"
     )
     val skillsSupportDescription = getDonneesPerso(
-        stringResource(perso.firstnameResourceId),
+        perso.firstName,
         type = "competences_support_description"
     )
 
@@ -166,7 +151,7 @@ fun HistoryPerso(perso:Perso){
         text = Category.HISTORY,
         content = {
             HistoryContentExpandableCard(
-                stringResource(R.string.djidane_description)
+                perso.description ?: ""
             )
         }
     )
@@ -174,7 +159,7 @@ fun HistoryPerso(perso:Perso){
 
 @Composable
 fun WeaponsPerso(perso:Perso){
-    val weapons = getWeaponsData(perso)
+    /*val weapons = getWeaponsData(perso)
 
     CardBloc(
         iconRes = defineIconCategory(Category.WEAPONS),
@@ -182,7 +167,7 @@ fun WeaponsPerso(perso:Perso){
         content = {
             WeaponsContentExpandableCard(weapons)
         }
-    )
+    )*/
 }
 
 @Composable
@@ -363,7 +348,7 @@ private fun GridSection(title:String,
                 }
             }
         }
-        if(showDialog){
+        if(showDialog && selectedItem != null){
             ShowDetailDialog(item = selectedItem!!,
                 description = listDescription[selectedItemIndex],
                 onDismiss = { showDialog = false },
@@ -460,13 +445,5 @@ private fun getDonneesPerso(nomPerso: String, type: String): List<String> {
     }
 }
 
-@Composable
-fun getWeaponsData(perso: Perso): List<Weapon> {
-    when(stringResource(perso.firstnameResourceId)){
-        stringResource(R.string.djidane_firstname) ->{
-            return weaponsDjidane()
-        }
-    }
-    throw Error("Ce perso n'existe pas ")
-}
+
 
