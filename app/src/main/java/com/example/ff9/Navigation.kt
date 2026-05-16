@@ -1,7 +1,8 @@
 package com.example.ff9
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.LaunchedEffect
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
@@ -35,21 +36,32 @@ fun AppNavigation() {
         }
 
         composable(Routes.screenChoosePerso) {
-            ListChoosePersoView(
+
+            val choosePersoViewModel: ChoosePersoViewModel = viewModel()
+            ListChoosePersoScreen(
+                choosePersoViewModel,
                 onBack = { navController.popBackStack() },
-                onNavigateToPersoDetails = { indexPerso ->
-                    navController.navigate("${Routes.screenDetailsPerso}/$indexPerso")
+                onNavigateToPersoDetails = { idPerso ->
+                    navController.navigate("${Routes.screenDetailsPerso}/$idPerso")
                 }
             )
         }
 
         composable(
-            route = "${Routes.screenDetailsPerso}/{indexPerso}",
-            arguments = listOf(navArgument("indexPerso") { type = NavType.StringType })
+            route = "${Routes.screenDetailsPerso}/{idPerso}",
+            arguments = listOf(navArgument("idPerso") { type = NavType.StringType })
         ) { backStackEntry ->
-            val persoParams = backStackEntry.arguments?.getString("indexPerso") ?: "Inconnu"
-            PersoDetailsView(
-                indexPerso = persoParams,
+
+            val detailsPersoViewModel: DetailsPersoViewModel = viewModel()
+
+            val persoIdParams = backStackEntry.arguments?.getString("idPerso")?.toInt() ?: 0
+
+            LaunchedEffect(persoIdParams) {
+                detailsPersoViewModel.getPersoById(persoIdParams)
+            }
+
+            DetailsPersoScreen(
+                detailsPersoViewModel,
                 onBack = { navController.popBackStack(Routes.screenChoosePerso,inclusive = false) }
             )
         }
