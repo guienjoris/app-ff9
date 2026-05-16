@@ -4,14 +4,29 @@ package com.example.ff9.data.entities
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.Junction
+import androidx.room.PrimaryKey
 import androidx.room.Relation
 
 @Entity(
     tableName = "table_character_skill_support_cross_ref",
-    primaryKeys = ["idCharacter", "idSkillSupport"] // Les deux noms utilisés dans SQLite
+    foreignKeys = [
+        ForeignKey(
+            entity = SkillSupport::class,
+            parentColumns = ["id"],
+            childColumns = ["idSkillSupport"]
+        ),
+        ForeignKey(
+            entity = Character::class,
+            parentColumns = ["id"],
+            childColumns = ["idCharacter"]
+        ),
+        
+    ]// Les deux noms utilisés dans SQLite
 )
 data class CharacterSkillSupportCrossRef(
+    @PrimaryKey(autoGenerate = true) val id:Int,
     @ColumnInfo(name = "idCharacter") val idCharacter: Int,
     @ColumnInfo(name = "idSkillSupport") val idSkillSupport: Int
 )

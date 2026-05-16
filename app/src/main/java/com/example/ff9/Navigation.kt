@@ -59,6 +59,8 @@ fun AppNavigation() {
 
             LaunchedEffect(characterIdParams) {
                 detailsCharacterViewModel.getCharacterById(characterIdParams)
+                detailsCharacterViewModel.getSkillsCombatByCharacterId(characterIdParams)
+                detailsCharacterViewModel.getSkillsSupportByCharacterId(characterIdParams)
             }
 
             DetailsCharacterScreen(

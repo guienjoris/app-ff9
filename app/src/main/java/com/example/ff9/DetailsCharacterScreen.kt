@@ -70,6 +70,7 @@ fun DetailsCharacterScreen(viewModel: DetailsCharacterViewModel, onBack: ()-> Un
     val skillsSupport by viewModel.skillsSupportState.collectAsState()
 
 
+
     if(character != null){
         Column(modifier = Modifier.padding(8.dp)) {
             ButtonBack(onBack)
@@ -99,7 +100,7 @@ fun DetailsCharacterScreen(viewModel: DetailsCharacterViewModel, onBack: ()-> Un
             WeaponsCharacter(character!!)
         }
     }else{
-        Text(text = "Chargement des caractéristiques du personnage...")
+        Text(text = "Chargement du personnage...")
     }
 }
 
@@ -146,7 +147,7 @@ fun SkillsCharacter(skillsCombat: List<SkillCombat>?,skillSupport: List<SkillSup
             }
         )
     }else{
-        Text(text="Chargement des données du personnage")
+        Text(text="Chargement des compétences du personnage")
     }
 
 
