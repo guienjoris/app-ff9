@@ -116,23 +116,6 @@ fun defineIconCategory(blocName: Category): Painter{
 
 @Composable
 fun SkillsCharacter(skillsCombat: List<SkillCombat>?,skillSupport: List<SkillSupport>?){
-    /*val skillsCombat = getDonneesCharacter(
-        character.firstName,
-        type = "competences_combat"
-        )
-    val skillsCombatDescription = getDonneesCharacter(
-        character.firstName,
-        type = "competences_combat_description"
-    )
-
-    val skillsSupport= getDonneesCharacter(
-        character.firstName,
-        type = "competences_support"
-    )
-    val skillsSupportDescription = getDonneesCharacter(
-        character.firstName,
-        type = "competences_support_description"
-    )*/
 
 
     if(skillsCombat != null && skillSupport!= null) {
