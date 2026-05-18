@@ -52,7 +52,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ff9.data.entities.Character
-import com.example.ff9.data.Weapon
+import com.example.ff9.data.entities.CompleteWeaponDetails
 import com.example.ff9.data.entities.SkillCombat
 import com.example.ff9.data.entities.SkillSupport
 
@@ -68,6 +68,7 @@ fun DetailsCharacterScreen(viewModel: DetailsCharacterViewModel, onBack: ()-> Un
     val character by viewModel.characterState.collectAsState()
     val skillsCombat by viewModel.skillsCombatState.collectAsState()
     val skillsSupport by viewModel.skillsSupportState.collectAsState()
+    val weapons by viewModel.weaponsForCharacterState.collectAsState()
 
 
 
@@ -97,7 +98,7 @@ fun DetailsCharacterScreen(viewModel: DetailsCharacterViewModel, onBack: ()-> Un
             Spacer(Modifier.height(8.dp))
             SkillsCharacter(skillsCombat,skillsSupport)
             Spacer(Modifier.height(8.dp))
-            WeaponsCharacter(character!!)
+            WeaponsCharacter(weapons)
         }
     }else{
         Text(text = "Chargement du personnage...")
@@ -150,16 +151,20 @@ fun HistoryCharacter(character: Character){
 }
 
 @Composable
-fun WeaponsCharacter(character: Character){
-    /*val weapons = getWeaponsData(character)
+fun WeaponsCharacter(weapons: List<CompleteWeaponDetails>?){
 
-    CardBloc(
-        iconRes = defineIconCategory(Category.WEAPONS),
-        text = Category.WEAPONS,
-        content = {
-            WeaponsContentExpandableCard(weapons)
-        }
-    )*/
+    if(weapons != null){
+        CardBloc(
+            iconRes = defineIconCategory(Category.WEAPONS),
+            text = Category.WEAPONS,
+            content = {
+                WeaponsContentExpandableCard(weapons)
+            }
+        )
+    }else{
+        Text(text="Chargement des armes du personnage...")
+    }
+
 }
 
 @Composable
@@ -232,21 +237,22 @@ private fun SkillsContentExpandableCard(skillsCombat: List<SkillCombat>,
 }
 
 @Composable
-fun WeaponsContentExpandableCard(weapons:List<Weapon>){
+fun WeaponsContentExpandableCard(weapons:List<CompleteWeaponDetails>){
 
     val weaponsItem = weapons.map {
         ComposableOrText.Custom(
             {
                 Column (horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,){
-                    if (it.iconResourceId != null) {
+                    verticalArrangement = Arrangement.Center,
+                    modifier= Modifier.fillMaxWidth()
+                    ){
                         Image(
-                            painter = painterResource(it.iconResourceId),
+                            painter = painterResource(getResIdByName(it.weapon.pictureId)),
                             contentDescription = null,
                             modifier = Modifier.size(50.dp)
                         )
-                    }
-                    Text(text = it.name)
+
+                    Text(text = it.weapon.name)
                 }
             }
 
@@ -256,21 +262,42 @@ fun WeaponsContentExpandableCard(weapons:List<Weapon>){
     val weaponsDescription = weapons.map {
         ComposableOrText.Custom({
             Column() {
-                if(it.additionalEffect != null){
-                    Text(text="Effets Additionnels : ", fontWeight = FontWeight.Bold)
-                    Text(text= it.additionalEffect)
+                if(it.additionalEffects.isNotEmpty()){
+                    Column(modifier=Modifier.padding(5.dp)) {
+                        Text(text="Effets Additionnels : ", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                        Column(){
+                            it.additionalEffects.forEach{ it->
+                                Text(text=it.name, fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                                Spacer(modifier=Modifier.width(5.dp))
+                                Text(text=it.description ?: "")
+                            }
+                        }
+                    }
+
                 }
-                if(it.competenceCombat != null){
-                    Text(text="Compétences de combat : ", fontWeight = FontWeight.Bold)
-                    Text(text= it.competenceCombat)
+                if(it.combatSkills.isNotEmpty()){
+                    Column(modifier=Modifier.padding(5.dp)) {
+                        Text(text="Compétences de combat : ", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                        Column(){
+                            it.combatSkills.forEach{ it->
+                                Text(text=it.name, fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                                Spacer(modifier=Modifier.width(5.dp))
+                                Text(text=it.description ?: "")
+                            }
+                        }
+                    }
                 }
-                if(it.competenceSupport != null){
-                    Text(text="Compétences de support : ", fontWeight = FontWeight.Bold)
-                    Text(text= it.competenceSupport)
-                }
-                if(it.description != null){
-                    Text(text="Description: ", fontWeight = FontWeight.Bold)
-                    Text(text= it.description)
+                if(it.supportSkills.isNotEmpty()){
+                    Column(modifier=Modifier.padding(5.dp)) {
+                        Text(text="Compétences de support : ", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                        Column(){
+                            it.supportSkills.forEach{ it->
+                                Text(text=it.name, fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                                Spacer(modifier=Modifier.width(5.dp))
+                                Text(text=it.description ?: "")
+                            }
+                        }
+                    }
                 }
             }
         }

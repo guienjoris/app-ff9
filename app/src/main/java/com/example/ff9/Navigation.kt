@@ -61,6 +61,8 @@ fun AppNavigation() {
                 detailsCharacterViewModel.getCharacterById(characterIdParams)
                 detailsCharacterViewModel.getSkillsCombatByCharacterId(characterIdParams)
                 detailsCharacterViewModel.getSkillsSupportByCharacterId(characterIdParams)
+                detailsCharacterViewModel.getWeaponsDetailsByCharacterId(characterIdParams)
+
             }
 
             DetailsCharacterScreen(

@@ -12,3 +12,12 @@ data class SkillCombat (
     @ColumnInfo(name="description") val description : String,
     @ColumnInfo(name="picture_id") val pictureId: String,
 )
+
+@Entity(tableName = "table_skill_support")
+data class SkillSupport (
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id") val idSkillSupport: Int = 0,
+    @ColumnInfo(name = "name") val name: String,
+    @ColumnInfo(name="description") val description : String,
+    @ColumnInfo(name="picture_id") val pictureId: String,
+)
