@@ -9,8 +9,6 @@ import com.example.ff9.data.dao.SkillCombatDao
 import com.example.ff9.data.dao.SkillSupportDao
 import com.example.ff9.data.dao.WeaponDao
 import com.example.ff9.data.entities.Character
-import com.example.ff9.data.entities.CharacterSkillCombatCrossRef
-import com.example.ff9.data.entities.CharacterSkillSupportCrossRef
 import com.example.ff9.data.entities.SkillCombat
 import com.example.ff9.data.entities.SkillSupport
 import com.example.ff9.data.entities.Weapon
@@ -27,8 +25,6 @@ import com.example.ff9.data.entities.WeaponSkillSupportCrossRef
     SkillSupport::class,
     Weapon::class,
     AdditionalEffect::class,
-    CharacterSkillCombatCrossRef::class,
-    CharacterSkillSupportCrossRef::class,
     WeaponAdditionalEffectCrossRef::class,
     WeaponCharacterCrossRef::class,
     WeaponSkillCombatCrossRef::class,

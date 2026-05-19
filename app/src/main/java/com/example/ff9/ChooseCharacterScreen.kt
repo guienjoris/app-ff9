@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.ff9.data.entities.Character
 
@@ -52,9 +53,9 @@ fun ListChooseCharacter(characters: List<Character>, onNavigateToCharacterDetail
 fun CardChooseCharacter(character: Character, onNavigateToCharacterDetails:(Int)-> Unit){
 
 
-    Card(modifier = Modifier,
+    Card(modifier = Modifier.padding(10.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
+            containerColor = MaterialTheme.colorScheme.secondaryContainer
         )
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(5.dp),
@@ -68,12 +69,19 @@ fun CardChooseCharacter(character: Character, onNavigateToCharacterDetails:(Int)
                 contentDescription = null,
 
                 )
-            Text(text= character.firstName,
-                style= MaterialTheme.typography.titleLarge
-            )
-            Text(text=character.lastName ?: "",
-                style= MaterialTheme.typography.titleLarge
-            )
+            Column{
+                Text(text= character.firstName,
+                    style= MaterialTheme.typography.titleLarge,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(text=character.lastName ?: "",
+                    style= MaterialTheme.typography.titleLarge,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
 
 
         }

@@ -1,5 +1,9 @@
 package com.example.ff9
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,6 +29,34 @@ fun AppNavigation() {
     NavHost(
         navController = navController,
         startDestination = Routes.screenHome,
+        // Animation quand un écran apparaît
+        enterTransition = {
+            slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Left,
+                animationSpec = tween(500)
+            ) + fadeIn(animationSpec = tween(500))
+        },
+        // Animation quand un écran disparaît (vers l'avant)
+        exitTransition = {
+            slideOutOfContainer(
+                AnimatedContentTransitionScope.SlideDirection.Left,
+                animationSpec = tween(500)
+            ) + fadeOut(animationSpec = tween(500))
+        },
+        // Animation quand on fait un retour arrière (l'écran précédent réapparaît)
+        popEnterTransition = {
+            slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Right,
+                animationSpec = tween(500)
+            )
+        },
+        // Animation quand l'écran actuel est détruit (retour arrière)
+        popExitTransition = {
+            slideOutOfContainer(
+                AnimatedContentTransitionScope.SlideDirection.Right,
+                animationSpec = tween(500)
+            )
+        }
 
     ) {
         // Écran A
@@ -59,8 +91,6 @@ fun AppNavigation() {
 
             LaunchedEffect(characterIdParams) {
                 detailsCharacterViewModel.getCharacterById(characterIdParams)
-                detailsCharacterViewModel.getSkillsCombatByCharacterId(characterIdParams)
-                detailsCharacterViewModel.getSkillsSupportByCharacterId(characterIdParams)
                 detailsCharacterViewModel.getWeaponsDetailsByCharacterId(characterIdParams)
 
             }

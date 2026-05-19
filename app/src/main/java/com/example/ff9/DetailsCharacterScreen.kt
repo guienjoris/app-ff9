@@ -2,6 +2,9 @@ package com.example.ff9
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -44,10 +47,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -55,6 +60,7 @@ import com.example.ff9.data.entities.Character
 import com.example.ff9.data.entities.CompleteWeaponDetails
 import com.example.ff9.data.entities.SkillCombat
 import com.example.ff9.data.entities.SkillSupport
+import androidx.compose.ui.platform.LocalResources
 
 
 enum class Category(val value: String){
@@ -66,11 +72,11 @@ enum class Category(val value: String){
 fun DetailsCharacterScreen(viewModel: DetailsCharacterViewModel, onBack: ()-> Unit){
 
     val character by viewModel.characterState.collectAsState()
-    val skillsCombat by viewModel.skillsCombatState.collectAsState()
-    val skillsSupport by viewModel.skillsSupportState.collectAsState()
     val weapons by viewModel.weaponsForCharacterState.collectAsState()
 
-
+    val density = LocalResources.current.displayMetrics.density
+    val widthInDp = (400 / density).dp
+    val heightInDp = (800 / density).dp
 
     if(character != null){
         Column(modifier = Modifier.padding(8.dp)) {
@@ -82,21 +88,30 @@ fun DetailsCharacterScreen(viewModel: DetailsCharacterViewModel, onBack: ()-> Un
                     .padding(12.dp)
             ) {
                 Image(painter = painterResource(getResIdByName(character?.pictureId)),
-                    contentDescription = "Profile ${character?.firstName ?: ""} ")
-                Row() {
+                    contentDescription = "Profile ${character?.firstName ?: ""} ",
+                contentScale = ContentScale.Fit,
+                    modifier = Modifier.size(width = widthInDp, height = heightInDp)
+                )
+                Column() {
                     Text(text= character?.firstName ?: "",
-                        style= MaterialTheme.typography.titleLarge
+                        style= MaterialTheme.typography.titleLarge,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                     Spacer(modifier=Modifier.width(8.dp))
                     Text(text= character?.lastName ?: "",
-                        style= MaterialTheme.typography.titleLarge
+                        style= MaterialTheme.typography.titleLarge,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
 
             }
             HistoryCharacter(character!!)
             Spacer(Modifier.height(8.dp))
-            SkillsCharacter(skillsCombat,skillsSupport)
+            SkillsCharacter(skillsCombat=weapons?.flatMap{it.combatSkills},
+                skillsSupport =weapons?.flatMap{it.supportSkills}
+            )
             Spacer(Modifier.height(8.dp))
             WeaponsCharacter(weapons)
         }
@@ -116,17 +131,17 @@ fun defineIconCategory(blocName: Category): Painter{
 }
 
 @Composable
-fun SkillsCharacter(skillsCombat: List<SkillCombat>?,skillSupport: List<SkillSupport>?){
+fun SkillsCharacter(skillsCombat: List<SkillCombat>?,skillsSupport: List<SkillSupport>?){
 
 
-    if(skillsCombat != null && skillSupport!= null) {
+    if(skillsCombat != null && skillsSupport!= null) {
         CardBloc(
             iconRes = defineIconCategory(Category.SKILLS),
             text = Category.SKILLS,
             content = {
                 SkillsContentExpandableCard(
                     skillsCombat,
-                    skillSupport
+                    skillsSupport
                 )
             }
         )
@@ -171,15 +186,17 @@ fun WeaponsCharacter(weapons: List<CompleteWeaponDetails>?){
 fun CardBloc(iconRes: Painter, text: Category, content: @Composable ()-> Unit){
     var expanded by remember { mutableStateOf(false) }
 
-    val color by animateColorAsState(
-        targetValue = if (expanded) MaterialTheme.colorScheme.primaryContainer
-        else MaterialTheme.colorScheme.tertiaryContainer,
-    )
 
-    Card(onClick = { expanded = !expanded }) {
+    Card(onClick = { expanded = !expanded },
+        modifier = Modifier.animateContentSize(
+            animationSpec = tween(
+                durationMillis = 300, // Durée de l'animation
+                easing = LinearOutSlowInEasing // Courbe de vitesse fluide
+            )
+    )) {
         Column(modifier= Modifier
             .padding(8.dp)
-            .verticalScroll(rememberScrollState())) {
+            ) {
             Row(horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier=Modifier.fillMaxWidth()
@@ -198,7 +215,10 @@ fun CardBloc(iconRes: Painter, text: Category, content: @Composable ()-> Unit){
                 )
             }
             if(expanded){
-                content()
+                Column(modifier=Modifier.verticalScroll(rememberScrollState())){
+                    content()
+                }
+
             }
         }
 
