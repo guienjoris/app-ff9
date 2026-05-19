@@ -109,8 +109,8 @@ fun DetailsCharacterScreen(viewModel: DetailsCharacterViewModel, onBack: ()-> Un
             }
             HistoryCharacter(character!!)
             Spacer(Modifier.height(8.dp))
-            SkillsCharacter(skillsCombat=weapons?.flatMap{it.combatSkills},
-                skillsSupport =weapons?.flatMap{it.supportSkills}
+            SkillsCharacter(skillsCombat=weapons?.flatMap{it.combatSkills}?.toSet()?.toList(),
+                skillsSupport =weapons?.flatMap{it.supportSkills}?.toSet()?.toList()
             )
             Spacer(Modifier.height(8.dp))
             WeaponsCharacter(weapons)
