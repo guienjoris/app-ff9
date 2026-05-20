@@ -22,28 +22,4 @@ class ListWeaponViewModel (application: Application): AndroidViewModel(applicati
             _allWeaponsState.value = weaponDao.getAllWeaponsWithDetails()
         }
     }
-
-    fun mapWeaponsToCharacters(
-        weaponsList: List<CompleteWeaponDetails>
-    ): List<CharacterWithAllWeaponDetails> {
-        return weaponsList
-            // 1. On extrait chaque couple (Personnage, Arme)
-            .flatMap { weaponDetails ->
-                weaponDetails.linkedCharacters.map { character ->
-                    character to weaponDetails
-                }
-            }
-            // 2. On groupe par le Personnage (ou par character.name selon ta préférence)
-            // Ici on groupe par l'objet Character complet pour garder l'ID et ses infos
-            .groupBy { (character, _) -> character }
-            // 3. On transforme le résultat en notre data class d'UI
-            .map { (character, pairs) ->
-                CharacterWithAllWeaponDetails(
-                    character = character,
-                    // On récupère toutes les armes associées à ce personnage précis
-                    weapons = pairs.map { it.second }
-                )
-            }
-
-    }
 }
