@@ -165,6 +165,11 @@ data class CompleteWeaponDetails(
     val linkedCharacters: List<Character>
 )
 
+data class CharacterWithAllWeaponDetails(
+    val character: Character,
+    val weapons: List<CompleteWeaponDetails>
+)
+
 
 
 
