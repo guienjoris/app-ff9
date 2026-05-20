@@ -11,13 +11,13 @@ interface WeaponDao {
     // On utilise @Transaction car Room va exécuter plusieurs requêtes SELECT
     // en tâche de fond pour remplir toutes les listes du POJO de manière synchronisée.
     @Transaction
-    @Query("SELECT * FROM table_weapon WHERE id = :weaponId")
+    @Query("SELECT * FROM table_weapon WHERE id = :weaponId ")
     suspend fun getWeaponDetailsById(weaponId: Int): CompleteWeaponDetails?
 
     // Version Flow pour observer toute ta liste d'armes ultra-complète en temps réel
     @Transaction
     @Query("SELECT * FROM table_weapon")
-    suspend fun getAllWeaponsWithDetails(): List<CompleteWeaponDetails>?
+    fun getAllWeaponsWithDetails(): Flow<List<CompleteWeaponDetails>>
 
     // Pour avoir toute ta liste d'armes ultra-complète en temps réel pour un personnage donné
     @Transaction

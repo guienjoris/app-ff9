@@ -179,13 +179,13 @@ private fun SkillsContentExpandableCard(skillsCombat: List<SkillCombat>,
             lists=skillsCombat.map{ComposableOrText.Text(it.name)},
             listDescription = skillsCombat.map{ ComposableOrText.Text(it.description)},
             globalPainter= painterResource(R.drawable.combat_skill_icon),
-            height = 300.dp
+            modifier = Modifier.height(300.dp)
         )
         GridSection(title="Compétences de soutien",
             lists=skillsSupport.map{ComposableOrText.Text(it.name)},
             listDescription = skillsSupport.map{ ComposableOrText.Text(it.description)},
             globalPainter = painterResource(R.drawable.support_skill_icon),
-            height = 100.dp
+            modifier = Modifier.height(100.dp)
         )
     }
 }
@@ -262,9 +262,9 @@ private fun WeaponsContentExpandableCard(weapons:List<CompleteWeaponDetails>){
         GridSection(title="Armes",
             lists=weaponsItem,
             listDescription = weaponsDescription,
-            height = 500.dp,
-            null
-        )
+            null,
+            modifier = Modifier.height(500.dp),
+            )
     }
 
 

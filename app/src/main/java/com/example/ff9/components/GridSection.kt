@@ -32,8 +32,8 @@ import androidx.compose.ui.unit.dp
 fun GridSection(title:String,
                         lists: List<ComposableOrText>,
                         listDescription: List<ComposableOrText>,
-                        height: Dp = 50.dp,
                         globalPainter: Painter?,
+                        modifier:Modifier
 ){
     var showDialog by remember { mutableStateOf(false) }
     var selectedItem by remember { mutableStateOf<ComposableOrText?>(null) }
@@ -44,7 +44,7 @@ fun GridSection(title:String,
         TextTitle(text=title)
         LazyVerticalGrid(columns= GridCells.Fixed(3),
             contentPadding = PaddingValues(5.dp),
-            modifier = Modifier.height(height)
+            modifier = modifier
         ) {
             itemsIndexed(lists) { index, item ->
                 Column{
@@ -85,3 +85,4 @@ fun GridSection(title:String,
         }
     }
 }
+

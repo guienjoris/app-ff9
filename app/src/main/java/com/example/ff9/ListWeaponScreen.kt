@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -23,48 +25,35 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.ff9.components.ButtonBack
 import com.example.ff9.components.ComposableOrText
 import com.example.ff9.components.GridSection
 import com.example.ff9.data.entities.CharacterWithAllWeaponDetails
 import com.example.ff9.data.entities.CompleteWeaponDetails
+import com.example.ff9.data.entities.WeaponUiDetails
 import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.collections.groupBy
 
 @Composable
 fun ListWeaponScreen(viewModel: ListWeaponViewModel,onBack: ()-> Unit){
-    val weapons by viewModel.allWeaponsState.collectAsState()
+    val weapons by viewModel.charactersWithDetails.collectAsStateWithLifecycle()
 
-    val weaponsByCharacter = weapons?.flatMap { weaponDetails ->
-        weaponDetails.linkedCharacters.map { character ->
-            character to weaponDetails
-        }
-    }
-        // 2. On groupe par le Personnage (ou par character.name selon ta préférence)
-        // Ici on groupe par l'objet Character complet pour garder l'ID et ses infos
-        ?.groupBy { (character, _) -> character }
-        // 3. On transforme le résultat en notre data class d'UI
-        ?.map { (character, pairs) ->
-            CharacterWithAllWeaponDetails(
-                character = character,
-                // On récupère toutes les armes associées à ce personnage précis
-                weapons = pairs.map { it.second }
-            )
-        }
+    println(weapons)
 
     Column{
         ButtonBack(onBack)
-        weaponsByCharacter?.forEach {
+        weapons.forEach {
             Text(text=it.character.firstName)
-            DisplayArmesForCharacter(it.weapons)
+            DisplayWeaponsForCharacter(it.weapons)
         }
     }
 
 }
 
 @Composable
-fun DisplayArmesForCharacter(weapons:List<CompleteWeaponDetails>){
+fun DisplayWeaponsForCharacter(weapons:List<WeaponUiDetails>){
 
     val weaponsItems = weapons.map{
         ComposableOrText.Custom({
@@ -133,9 +122,10 @@ fun DisplayArmesForCharacter(weapons:List<CompleteWeaponDetails>){
             GridSection(title="Armes",
                 lists=weaponsItems,
                 listDescription = weaponsDescription,
-                height = 500.dp,
-                null
-            )
+                null,
+                modifier = Modifier.fillMaxSize(),
+
+                )
         }
     }else{
         Text(text="Chargement des armes ...")

@@ -110,10 +110,6 @@ fun AppNavigation() {
 
             val allWeaponsViewModel: ListWeaponViewModel = viewModel()
 
-            LaunchedEffect("getAllWeapons") {
-                allWeaponsViewModel.getAllWeapons()
-            }
-
             ListWeaponScreen(allWeaponsViewModel,
                 onBack = { navController.popBackStack(Routes.screenHome,inclusive = false) }
                 )
