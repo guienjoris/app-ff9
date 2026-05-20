@@ -56,12 +56,17 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun HomeScreen(onNavigateToListCharacters:  () -> Unit){
+fun HomeScreen(onNavigateToListCharacters:  () -> Unit,
+               onNavigateToListWeapon: ()-> Unit
+               ){
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier= Modifier.fillMaxWidth()){
         Button(onClick = onNavigateToListCharacters ) {
             Text(text="Personnages")
+        }
+        Button(onClick = onNavigateToListWeapon ) {
+            Text(text="Armes")
         }
     }
 
@@ -104,14 +109,6 @@ fun getResIdByName(resName: String?): Int {
     return if (resId != 0) resId else R.drawable.logo_ico // On gère si l'image n'existe pas
 }
 
-@Composable
-fun ButtonBack(onBack:() -> Unit){
-    IconButton(onClick = onBack) {
-        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-            tint=MaterialTheme.colorScheme.tertiary,
-            contentDescription = "Back to the previous page"
-            )
-    }
-}
+
 
 

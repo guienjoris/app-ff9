@@ -16,8 +16,8 @@ interface WeaponDao {
 
     // Version Flow pour observer toute ta liste d'armes ultra-complète en temps réel
     @Transaction
-    @Query("SELECT * FROM table_weapon")
-    fun getAllWeaponsWithDetails(): Flow<CompleteWeaponDetails>
+    @Query("SELECT * FROM table_weapon INNER JOIN table_weapon_character_cross_ref ON table_weapon.id = table_weapon_character_cross_ref.idWeapon")
+    suspend fun getAllWeaponsWithDetails(): List<CompleteWeaponDetails>?
 
     // Pour avoir toute ta liste d'armes ultra-complète en temps réel pour un personnage donné
     @Transaction

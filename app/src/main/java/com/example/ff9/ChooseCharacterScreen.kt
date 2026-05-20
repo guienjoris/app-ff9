@@ -24,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.ff9.data.entities.Character
+import com.example.ff9.components.ButtonBack
 
 @Composable
 fun ListChooseCharacterScreen(viewModel: ChooseCharacterViewModel, onBack: () -> Unit, onNavigateToCharacterDetails:(idCharacter:Int)-> Unit){

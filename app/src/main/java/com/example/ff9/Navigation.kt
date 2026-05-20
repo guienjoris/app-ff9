@@ -18,6 +18,8 @@ object Routes {
     const val screenChooseCharacter = "screen_choose_character"
     const val screenDetailsCharacter = "screen_details_character"
 
+    const val screenListWeapon = "screen_list_weapon"
+
 }
 
 @Composable
@@ -64,6 +66,9 @@ fun AppNavigation() {
             HomeScreen(
                 onNavigateToListCharacters = {
                     navController.navigate(Routes.screenChooseCharacter)
+                },
+                onNavigateToListWeapon ={
+                    navController.navigate(Routes.screenListWeapon)
                 }
             )
         }
@@ -99,6 +104,19 @@ fun AppNavigation() {
                 detailsCharacterViewModel,
                 onBack = { navController.popBackStack(Routes.screenChooseCharacter,inclusive = false) }
             )
+        }
+
+        composable(Routes.screenListWeapon){
+
+            val allWeaponsViewModel: ListWeaponViewModel = viewModel()
+
+            LaunchedEffect("getAllWeapons") {
+                allWeaponsViewModel.getAllWeapons()
+            }
+
+            ListWeaponScreen(allWeaponsViewModel,
+                onBack = { navController.popBackStack(Routes.screenHome,inclusive = false) }
+                )
         }
     }
 }
