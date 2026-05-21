@@ -26,15 +26,7 @@ class ListWeaponViewModel (application: Application): AndroidViewModel(applicati
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = emptyList()
-        )// Ton Flow venant du DAO
-
-
-    /*fun getAllWeapons(){
-        viewModelScope.launch {
-            charactersWithDetails
-        }
-    }*/
-
+        )
     fun mapWeaponsToCharacters(
         weaponsList: List<CompleteWeaponDetails>
     ): List<CharacterWithAllWeaponDetails> {

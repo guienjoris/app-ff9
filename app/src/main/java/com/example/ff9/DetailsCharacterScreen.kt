@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,6 +37,7 @@ import androidx.compose.ui.platform.LocalResources
 import com.example.ff9.components.ButtonBack
 import com.example.ff9.components.ComposableOrText
 import com.example.ff9.components.ExpendableCard
+import com.example.ff9.components.GridItemPair
 import com.example.ff9.components.GridSection
 
 
@@ -172,102 +175,123 @@ private fun HistoryContentExpandableCard(text:String){
 private fun SkillsContentExpandableCard(skillsCombat: List<SkillCombat>,
                                         skillsSupport: List<SkillSupport>
                                         ){
-    // Si tes listes sont très larges, on ajoute le scroll horizontal
+
 
     Column(modifier=Modifier.fillMaxHeight()){
         GridSection(title="Compétences de combat",
-            lists=skillsCombat.map{ComposableOrText.Text(it.name)},
-            listDescription = skillsCombat.map{ ComposableOrText.Text(it.description)},
-            globalPainter= painterResource(R.drawable.combat_skill_icon),
+            items=skillsCombat.map{ it ->
+                GridItemPair(display=ComposableOrText.Custom({
+                    Column{
+                        Image(painter= painterResource(R.drawable.combat_skill_icon),
+                            contentDescription = null,
+                            modifier = Modifier.size(50.dp)
+                                               )
+                        Text(text=it.name)
+                    }
+                    }), description = ComposableOrText.Custom({
+                        Column(modifier = Modifier.verticalScroll(rememberScrollState())){
+                            Column{
+                                Text(text=it.description)
+                            }
+                        }
+                    }))
+                  },
             modifier = Modifier.height(300.dp)
         )
-        GridSection(title="Compétences de soutien",
-            lists=skillsSupport.map{ComposableOrText.Text(it.name)},
-            listDescription = skillsSupport.map{ ComposableOrText.Text(it.description)},
-            globalPainter = painterResource(R.drawable.support_skill_icon),
-            modifier = Modifier.height(100.dp)
-        )
+        if(skillsSupport.isNotEmpty()){
+            GridSection(title="Compétences de soutien",
+                items=skillsSupport.map{ it ->
+                    GridItemPair(display=ComposableOrText.Custom({
+                        Column{
+                            Image(painter= painterResource(R.drawable.support_skill_icon),
+                                contentDescription = null,
+                                modifier = Modifier.size(50.dp)
+                            )
+                            Text(text=it.name)
+                        }
+                    }), description = ComposableOrText.Custom({
+                        Column(modifier = Modifier.verticalScroll(rememberScrollState())){
+                            Column{
+                                Text(text=it.description)
+                            }
+                        }
+                    }))
+                },
+                modifier = Modifier.height(300.dp)
+            )
+        }
+
     }
 }
 
 @Composable
 private fun WeaponsContentExpandableCard(weapons:List<CompleteWeaponDetails>){
 
-    val weaponsItem = weapons.map {
-        ComposableOrText.Custom(
-            {
-                Column (horizontalAlignment = Alignment.CenterHorizontally,
+    val gridItems = weapons.map { weaponDetails ->
+        // On crée un nouvel objet ou une structure qui couple le visuel et sa description
+        GridItemPair(
+            display = ComposableOrText.Custom({
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
-                    modifier= Modifier.fillMaxWidth()
-                    ){
-                        Image(
-                            painter = painterResource(getResIdByName(it.weapon.pictureId)),
-                            contentDescription = null,
-                            modifier = Modifier.size(50.dp)
-                        )
-
-                    Text(text = it.weapon.name)
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Image(
+                        painter = painterResource(getResIdByName(weaponDetails.weapon.pictureId)),
+                        contentDescription = null,
+                        modifier = Modifier.size(50.dp)
+                    )
+                    Text(text = weaponDetails.weapon.name)
                 }
-            }
-
-        )
-    }
-
-    val weaponsDescription = weapons.map {
-        ComposableOrText.Custom({
-            Column() {
-                if(it.additionalEffects.isNotEmpty()){
-                    Column(modifier=Modifier.padding(5.dp)) {
-                        Text(text="Effets Additionnels : ", fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                        Column(){
-                            it.additionalEffects.forEach{ it->
-                                Text(text=it.name, fontWeight = FontWeight.Bold, fontSize = 15.sp)
-                                Spacer(modifier=Modifier.width(5.dp))
-                                Text(text=it.description ?: "")
+            }),
+            description = ComposableOrText.Custom({
+                // On ajoute le scroll ici pour éviter le freeze de Compose
+                Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                    // 1. Effets additionnels
+                    if (weaponDetails.additionalEffects.isNotEmpty()) {
+                        Column(modifier = Modifier.padding(5.dp)) {
+                            Text(text = "Effets Additionnels : ", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                            weaponDetails.additionalEffects.forEach { effect ->
+                                Text(text = effect.name, fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(text = effect.description ?: "")
                             }
                         }
                     }
-
-                }
-                if(it.combatSkills.isNotEmpty()){
-                    Column(modifier=Modifier.padding(5.dp)) {
-                        Text(text="Compétences de combat : ", fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                        Column(){
-                            it.combatSkills.forEach{ it->
-                                Text(text=it.name, fontWeight = FontWeight.Bold, fontSize = 15.sp)
-                                Spacer(modifier=Modifier.width(5.dp))
-                                Text(text=it.description ?: "")
+                    // 2. Compétences de combat
+                    if (weaponDetails.combatSkills.isNotEmpty()) {
+                        Column(modifier = Modifier.padding(5.dp)) {
+                            Text(text = "Compétences de combat : ", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                            weaponDetails.combatSkills.forEach { skill ->
+                                Text(text = skill.name, fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(text = skill.description ?: "")
                             }
                         }
                     }
-                }
-                if(it.supportSkills.isNotEmpty()){
-                    Column(modifier=Modifier.padding(5.dp)) {
-                        Text(text="Compétences de support : ", fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                        Column(){
-                            it.supportSkills.forEach{ it->
-                                Text(text=it.name, fontWeight = FontWeight.Bold, fontSize = 15.sp)
-                                Spacer(modifier=Modifier.width(5.dp))
-                                Text(text=it.description ?: "")
+                    // 3. Compétences de support
+                    if (weaponDetails.supportSkills.isNotEmpty()) {
+                        Column(modifier = Modifier.padding(5.dp)) {
+                            Text(text = "Compétences de support : ", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                            weaponDetails.supportSkills.forEach { support ->
+                                Text(text = support.name, fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(text = support.description ?: "")
                             }
                         }
                     }
                 }
-            }
-        }
+            })
         )
     }
 
     Column(modifier=Modifier.fillMaxHeight()){
-        GridSection(title="Armes",
-            lists=weaponsItem,
-            listDescription = weaponsDescription,
-            null,
-            modifier = Modifier.height(500.dp),
-            )
+        GridSection(
+            title = "Armes",
+            items = gridItems,
+            modifier = Modifier.height(500.dp)
+        )
     }
-
-
 }
 
 
