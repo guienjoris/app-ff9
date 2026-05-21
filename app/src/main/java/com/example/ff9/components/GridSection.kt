@@ -1,8 +1,14 @@
 package com.example.ff9.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -24,7 +30,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun GridSection(
-    title: String,
+    title: ComposableOrText,
     items: List<GridItemPair>, // Reçoit la liste unifiée
     modifier: Modifier
 ) {
@@ -36,18 +42,32 @@ fun GridSection(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TextTitle(text = title)
+        Box(modifier=Modifier.padding(10.dp)){
+            when(title){
+                is ComposableOrText.Text -> TextTitle(text = title.value)
+                is ComposableOrText.Custom -> title.content()
+            }
+        }
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
-            contentPadding = PaddingValues(5.dp),
-            modifier = modifier
+
+        FlowRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(5.dp),
+            maxItemsInEachRow = 3,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(items) { itemPair -> // Plus besoin d'index !
-                Column {
+            items.forEach { itemPair ->
+                // On donne un poids ou une largeur pour s'assurer que chaque élément
+                // occupe un tiers de l'espace disponible (comme GridCells.Fixed(3))
+                Box(
+                    modifier = Modifier.weight(1f),
+                    contentAlignment = Alignment.Center
+                ) {
                     Button(
                         onClick = {
-                            selectedItem = itemPair // On sauvegarde le couple entier
+                            selectedItem = itemPair
                             showDialog = true
                         },
                         colors = ButtonDefaults.buttonColors(
@@ -62,7 +82,6 @@ fun GridSection(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center,
                         ) {
-                            // Affichage du bouton
                             when (val display = itemPair.display) {
                                 is ComposableOrText.Text -> Text(text = display.value)
                                 is ComposableOrText.Custom -> display.content()
@@ -71,7 +90,14 @@ fun GridSection(
                     }
                 }
             }
-        }
+            val itemsOnLastRow = items.size % 3
+            if (itemsOnLastRow > 0) {
+                repeat(3 - itemsOnLastRow) {
+                    Box(modifier = Modifier.weight(1f))
+                }
+            }
+
+
 
         // Plus de risque d'index hors limites [0], on lit directement la description associée !
         if (showDialog && selectedItem != null) {
@@ -83,71 +109,11 @@ fun GridSection(
         }
     }
 }
+}
 // Une petite classe helper pour lier le bouton à sa description
 data class GridItemPair(
     val display: ComposableOrText,
     val description: ComposableOrText
 )
-/*@Composable
-fun GridSection(title:String,
-                        lists: List<ComposableOrText>,
-                        listDescription: List<ComposableOrText>,
-                        globalPainter: Painter?,
-                        modifier:Modifier
-){
-    var showDialog by remember { mutableStateOf(false) }
-    var selectedItem by remember { mutableStateOf<ComposableOrText?>(null) }
-    var selectedItemIndex by remember { mutableIntStateOf(0) }
 
-
-    Column(verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-        ){
-        TextTitle(text=title)
-        LazyVerticalGrid(columns= GridCells.Fixed(3),
-            contentPadding = PaddingValues(5.dp),
-            modifier = modifier
-        ) {
-            itemsIndexed(lists) { index, item ->
-                Column{
-                    Button(onClick = { selectedItem = item
-                        selectedItemIndex= index
-                        showDialog = true
-                    },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current
-                        ),
-                        elevation = null,
-                        shape = RectangleShape,
-                        contentPadding = PaddingValues(0.dp)
-                    ) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center,){
-                            if(globalPainter != null){
-                                Image(painter = globalPainter,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(50.dp)
-                                )
-                            }
-                            when(item) {
-                                is ComposableOrText.Text -> Text(text=item.value)
-                                is ComposableOrText.Custom -> item.content()
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-
-        println(listDescription[selectedItemIndex])
-        if(showDialog && selectedItem != null){
-            ShowDetailDialog(item = selectedItem!!,
-                description = listDescription[selectedItemIndex],
-                onDismiss = { showDialog = false },
-            )
-        }
-    }
-}*/
 

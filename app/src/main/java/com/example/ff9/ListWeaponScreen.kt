@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -65,7 +66,6 @@ fun DisplayWeaponsForCharacter(weapons: List<WeaponUiDetails>, character: Charac
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxSize()
                 ) {
                     Image(
                         painter = painterResource(getResIdByName(weaponDetails.weapon.pictureId)),
@@ -120,7 +120,19 @@ fun DisplayWeaponsForCharacter(weapons: List<WeaponUiDetails>, character: Charac
         Column(modifier = Modifier.fillMaxHeight()) {
             // On passe notre liste unifiée à GridSection
             GridSection(
-                title = character.firstName,
+                title = ComposableOrText.Custom{
+                    Row(modifier=Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                        ){
+                        Image(
+                            painter = painterResource(getResIdByName(character.profilePictureId)),
+                            contentDescription = "photo de profil de ${character.firstName} ${character.lastName}"
+                        )
+                        Spacer(modifier=Modifier.width(8.dp))
+                        Text(text="${character.firstName} ${character.lastName}")
+                    }
+                },
                 items = gridItems,
                 modifier = Modifier
             )
@@ -132,86 +144,5 @@ fun DisplayWeaponsForCharacter(weapons: List<WeaponUiDetails>, character: Charac
 
 
 
-/*@Composable
-fun DisplayWeaponsForCharacter(weapons:List<WeaponUiDetails>,character: Character){
 
-    val weaponsItems = weapons.map{ weaponsDetails ->
-        ComposableOrText.Custom({
-            Column (horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier= Modifier.fillMaxSize()
-            ){
-                Image(
-                    painter = painterResource(getResIdByName(weaponsDetails.weapon.pictureId)),
-                    contentDescription = null,
-                    modifier = Modifier.size(50.dp)
-                )
-
-                Text(text = weaponsDetails.weapon.name)
-            }
-        })
-    }
-
-    val weaponsDescription = weapons.map {weaponsDetails ->
-        ComposableOrText.Custom({
-            Column() {
-                if(weaponsDetails.additionalEffects.isNotEmpty()){
-                    Column(modifier=Modifier.padding(5.dp)) {
-                        Text(text="Effets Additionnels : ", fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                        Column(){
-                            weaponsDetails.additionalEffects.forEach{ additionalEffect->
-                                Text(text=additionalEffect.name, fontWeight = FontWeight.Bold, fontSize = 15.sp)
-                                Spacer(modifier=Modifier.height(5.dp))
-                                Text(text=additionalEffect.description ?: "")
-                            }
-                        }
-                    }
-
-                }
-                if(weaponsDetails.combatSkills.isNotEmpty()){
-                    Column(modifier=Modifier.padding(5.dp)) {
-                        Text(text="Compétences de combat : ", fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                        Column(){
-                            weaponsDetails.combatSkills.forEach{ combatSkill->
-                                Text(text=combatSkill.name, fontWeight = FontWeight.Bold, fontSize = 15.sp)
-                                Spacer(modifier=Modifier.height(5.dp))
-                                Text(text=combatSkill.description ?: "")
-                            }
-                        }
-                    }
-                }
-                if(weaponsDetails.supportSkills.isNotEmpty()){
-                    Column(modifier=Modifier.padding(5.dp)) {
-                        Text(text="Compétences de support : ", fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                        Column(){
-                            weaponsDetails.supportSkills.forEach{ supportSkill->
-                                Text(text=supportSkill.name, fontWeight = FontWeight.Bold, fontSize = 15.sp)
-                                Spacer(modifier=Modifier.height(5.dp))
-                                Text(text=supportSkill.description ?: "")
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        )
-    }
-
-    println(weapons)
-
-    if(weaponsItems.isNotEmpty() && weaponsDescription.isNotEmpty()){
-        Column(modifier=Modifier.fillMaxHeight()){
-            GridSection(title=character.firstName,
-                lists=weaponsItems,
-                listDescription = weaponsDescription,
-                null,
-                modifier = Modifier.height(1500.dp),
-
-                )
-        }
-    }else{
-        Text(text="Chargement des armes ...")
-    }
-
-}*/
 

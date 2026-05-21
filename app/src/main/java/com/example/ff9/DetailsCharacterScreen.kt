@@ -178,7 +178,7 @@ private fun SkillsContentExpandableCard(skillsCombat: List<SkillCombat>,
 
 
     Column(modifier=Modifier.fillMaxHeight()){
-        GridSection(title="Compétences de combat",
+        GridSection(title=ComposableOrText.Text("Compétences de combat"),
             items=skillsCombat.map{ it ->
                 GridItemPair(display=ComposableOrText.Custom({
                     Column{
@@ -199,7 +199,7 @@ private fun SkillsContentExpandableCard(skillsCombat: List<SkillCombat>,
             modifier = Modifier.height(300.dp)
         )
         if(skillsSupport.isNotEmpty()){
-            GridSection(title="Compétences de soutien",
+            GridSection(title= ComposableOrText.Text("Compétences de soutien"),
                 items=skillsSupport.map{ it ->
                     GridItemPair(display=ComposableOrText.Custom({
                         Column{
@@ -234,7 +234,6 @@ private fun WeaponsContentExpandableCard(weapons:List<CompleteWeaponDetails>){
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxSize()
                 ) {
                     Image(
                         painter = painterResource(getResIdByName(weaponDetails.weapon.pictureId)),
@@ -285,13 +284,18 @@ private fun WeaponsContentExpandableCard(weapons:List<CompleteWeaponDetails>){
         )
     }
 
-    Column(modifier=Modifier.fillMaxHeight()){
-        GridSection(
-            title = "Armes",
-            items = gridItems,
-            modifier = Modifier.height(500.dp)
-        )
+    if (gridItems.isNotEmpty()) {
+        Column(modifier=Modifier.fillMaxHeight()){
+            GridSection(
+                title = ComposableOrText.Text("Armes"),
+                items = gridItems,
+                modifier = Modifier
+            )
+        }
+    } else {
+        Text(text = "Chargement des armes ...")
     }
+
 }
 
 
