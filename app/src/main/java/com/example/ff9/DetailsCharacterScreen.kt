@@ -246,6 +246,21 @@ private fun WeaponsContentExpandableCard(weapons:List<CompleteWeaponDetails>){
             description = ComposableOrText.Custom({
                 // On ajoute le scroll ici pour éviter le freeze de Compose
                 Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                    if(weaponDetails.weapon.obtaining != null){
+                        Column(modifier = Modifier.padding(5.dp)) {
+                            Text(
+                                text = "Moyens d'obtentions: ",
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 18.sp
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(
+                                text = weaponDetails.weapon.obtaining,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 15.sp
+                            )
+                        }
+                    }
                     // 1. Effets additionnels
                     if (weaponDetails.additionalEffects.isNotEmpty()) {
                         Column(modifier = Modifier.padding(5.dp)) {

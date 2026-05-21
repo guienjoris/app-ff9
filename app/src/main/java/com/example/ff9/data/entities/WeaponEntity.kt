@@ -10,11 +10,14 @@ import androidx.room.Relation
 
 @Entity(tableName = "table_weapon")
 data class Weapon(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     @ColumnInfo(name="name")
     val name: String,
     @ColumnInfo(name="picture_id")
     val pictureId: String,
+    @ColumnInfo(name="obtaining")
+    val obtaining: String?,
 )
 
 @Entity(
